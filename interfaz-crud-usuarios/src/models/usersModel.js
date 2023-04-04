@@ -65,6 +65,7 @@ const getAllUsers = async () => {
 
   const updateUser = async (id, userData) => {
     try {
+      
         const { email, name, surname, birthdate, city } = userData;
       const response = await fetch(`http://localhost:3000/users/update?id=${id}`, {
         method: 'PUT',
@@ -73,14 +74,13 @@ const getAllUsers = async () => {
         },
         body: JSON.stringify({ id, email, name, surname, birthdate, city })
       });
-  
       if (!response.ok) {
         throw new Error('Error updating user');
       }
   
-      const data = await response.json();
-      return data;
+      return response.ok;
     } catch (error) {
+      
       console.error(error);
       return 'Error updating user';
     }

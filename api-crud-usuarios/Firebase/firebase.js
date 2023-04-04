@@ -1,6 +1,6 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, doc, setDoc, query, where, updateDoc, deleteDoc, getDoc } = require('firebase/firestore');
-const { getAuth, createUserWithEmailAndPassword, updateProfile, getUserByEmail, deleteUserByEmail } = require("firebase/auth");
+const { getFirestore, collection, getDocs, doc, setDoc, query, where, updateDoc, deleteDoc, getDoc, addDoc } = require('firebase/firestore');
+const { getAuth, createUserWithEmailAndPassword, updateProfile} = require("firebase/auth");
 
 const firebaseConfig = {
   apiKey: "AIzaSyBCSMzzP5UD-7g_Mi1FEOtfj2IUjZoQaYg",
@@ -16,5 +16,5 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
-module.exports = { auth, collection, db, getDocs, createUserWithEmailAndPassword, doc, setDoc, updateProfile, query, where, updateDoc, deleteDoc, getDoc, getUserByEmail, deleteUserByEmail };
+module.exports = { auth, collection, db, getDocs, createUserWithEmailAndPassword, doc, setDoc, updateProfile, query, where, updateDoc, deleteDoc, getDoc, addDoc};
 

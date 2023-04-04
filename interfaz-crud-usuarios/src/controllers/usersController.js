@@ -7,7 +7,7 @@ const create = async (userData) => {
         console.error("Error al crear usuario.");
         return "Error";
     }
-    
+    return res;
 }
 
 const deleteUser = async (id) => {
@@ -47,12 +47,12 @@ const getUserById = async (id) => {
 const update = async (id, data) => {
     const res = await updateUser(id, data);
     
-    if(res === "Error updating user"){
+    if(!res){
+    
         console.error("Error al llamar función getAllUsers en usersModel, la respuesta dió error.");
         return "Error";
     }
-    
-    return res;
+    return true;
 }
 
 

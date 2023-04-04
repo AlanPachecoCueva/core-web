@@ -28,7 +28,7 @@ router.put('/update', async (req, res) => {
   try {
     const { id, email, name, surname, birthdate, city } = req.body;
     const result = await updateUser(id, email, name, surname, birthdate, city);
-    res.status(200);
+    res.status(200).send("Modify done.");
   } catch (error) {
     console.error(error);
     res.status(500).send('Error actualizando el usuario');

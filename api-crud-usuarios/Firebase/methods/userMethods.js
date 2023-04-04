@@ -1,19 +1,20 @@
-const { auth, collection, db, getDocs, createUserWithEmailAndPassword, doc, setDoc, query, where, updateDoc, deleteDoc, getDoc, getUserByEmail, deleteUserByEmail } = require('../firebase.js');
+const { auth, collection, db, getDocs, createUserWithEmailAndPassword, doc, setDoc, query, where, updateDoc, deleteDoc, getDoc, addDoc } = require('../firebase.js');
 
 //Create user
 async function createUserAndSaveData(email, password, name, surname, birthdate, city) {
   try {
     // Crear el usuario en Firebase Authentication
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // const user = userCredential.user;
 
-    // Crear una referencia al documento del usuario en Cloud Firestore
-    const userRef = doc(db, "users", user.uid);
+    // // Crear una referencia al documento del usuario en Cloud Firestore
+    // const userRef = doc(db, "users", user.uid);
 
     //OJO: Verificar que el email no se repita
 
+    const userRef = collection(db, "users");
     // Guardar los datos adicionales en Cloud Firestore
-    await setDoc(userRef, {
+    const userDoc = await addDoc(userRef, {
       email: email,
       password: password,
       name: name,
@@ -23,7 +24,7 @@ async function createUserAndSaveData(email, password, name, surname, birthdate, 
     });
 
     // Retornar el usuario creado
-    return user;
+    return userDoc;
   } catch (error) {
     // Manejar el error
     console.error(error);
@@ -150,24 +151,18 @@ async function updateUser(id, email, name, surname, birthdate, city) {
 
 async function deleteUser(id) {
   try {
-    const user = await getUser(id);
-
-    // await getUserByEmail(user.email);
-    await deleteUserByEmail(user.email);
-
-
-    const userRef = doc(db, "users", id);
-    const userDoc = await getDoc(userRef);
-    if (!userDoc.exists()) {
-      console.log("No existe el usuario a eliminar");
-      return;
-    }
-    await deleteDoc(userRef);
-    console.log("Usuario eliminado correctamente");
+    // Crear una referencia al documento a eliminar en Firestore
+    const documentRef = doc(db, "users", id);
+    
+    // Eliminar el documento
+    await deleteDoc(documentRef);
+    console.log(`El usuario con id ${id} ha sido eliminado exitosamente.`);
   } catch (error) {
-    console.error("Error al eliminar el usuario:", error);
+    // Manejar el error
+    console.error(`Error al eliminar el usuario con id ${id}:`, error);
   }
 }
+
 
 
 

@@ -1,6 +1,6 @@
 <template>
-    <v-btn  @click="goToNewUser()">Nuevo</v-btn>
-    <v-card text="List of users">
+    
+    <v-card text="List of users" cclass="red">
         <div v-if="loading">Loading...</div>
         <v-table v-if="!loading">
             <thead>
@@ -35,8 +35,8 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.city }}</td>
                     <td>{{ user.birthdate }}</td>
-                    <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditUser(user.id)"></v-btn></td>
-                    <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleUser(user.id)"></v-btn></td>
+                    <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditUser(user.id)" color="primary"></v-btn></td>
+                    <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleUser(user.id)"  color="secondary" class="deleteButton"></v-btn></td>
                 </tr>
             </tbody>
         </v-table>
@@ -45,6 +45,9 @@
 
 </template>
   
+<style>
+</style>
+
 <script>
     //Función que retorna los usuarios registrados
     import { getUsers, deleteUser } from '../controllers/usersController';
@@ -61,13 +64,40 @@
                 console.log("enviado user: ", id);
                 this.$router.push({ name: "editUser", params: { id} });
             },
-            goToNewUser(){
-                this.$router.push({ name: "newUser"});
-            },
+            
             async deteleUser(id){
-                const res = await deleteUser(id);
-                console.log("Res delete: ", res);
-                location.reload();
+                const result = await this.$swal({
+                    title: '¿Desea eliminar el usuario?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: "No",
+                });
+                if (result.isConfirmed) {
+                    const res = await deleteUser(id);
+                    
+                    if(res){
+                        await this.$swal({
+                            title: "¡Usuario eliminado!",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonText: "OK",
+                        });
+                        location.reload();
+                    }else{
+                        await this.$swal({
+                            title: "¡No se pudo eliminar el usuario!",
+                            icon: "error",
+                            showCancelButton: false,
+                            confirmButtonText: "OK",
+                        });
+                    }
+
+                    
+                }
+
+
+                
             }
         },
         async mounted() {
