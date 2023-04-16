@@ -7,7 +7,7 @@ const app = express();
 
 
 //User methods
-const { createUserAndSaveData, getAllUsers, updateUser, deleteUser, getUser } = require('../Firebase/methods/userMethods');
+const { createUserAndSaveData, updateUser, deleteUser, getAllUsers, getUser} = require('../Firebase/methods/userMethods');
 
 
 router.post('/create', async (req, res) => {
@@ -26,14 +26,20 @@ router.post('/create', async (req, res) => {
 
 router.put('/update', async (req, res) => {
   try {
-    const { id, email, name, surname, birthdate, city } = req.body;
-    const result = await updateUser(id, email, name, surname, birthdate, city);
+    const { uid, email, name, surname, birthdate, city } = req.body;
+    const result = await updateUser(uid, email, name, surname, birthdate, city);
     res.status(200).send("Modify done.");
   } catch (error) {
     console.error(error);
     res.status(500).send('Error actualizando el usuario');
   }
 });
+
+
+
+
+
+
 
 router.delete("/delete/:id", async (req, res) => {
   console.log("Entra a delete");
@@ -59,6 +65,8 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+
 router.get('/user/:id', async (req, res) => {
   try {
     const user = await getUser(req.params.id);
@@ -72,17 +80,4 @@ router.get('/user/:id', async (req, res) => {
 
 
 
-// router.post('/', (req, res) => {
-//   // Crear un nuevo usuario
-// });
-
-// router.put('/:id', (req, res) => {
-//   // Actualizar un usuario por ID
-// });
-
-// router.delete('/:id', (req, res) => {
-//   // Eliminar un usuario por ID
-// });
-
-// Exportar el enrutador
 module.exports = router;

@@ -1,33 +1,64 @@
-const { auth, collection, db, getDocs, createUserWithEmailAndPassword, doc, setDoc, query, where, updateDoc, deleteDoc, getDoc, addDoc } = require('../firebase.js');
+const { auth, db} = require('../firebase.js');
 
 //Create user
+// async function createUserAndSaveData(email, password, name, surname, birthdate, city) {
+//   try {
+//     // Crear el usuario en Firebase Authentication
+//     // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+//     // const user = userCredential.user;
+
+//     // // Crear una referencia al documento del usuario en Cloud Firestore
+//     // const userRef = doc(db, "users", user.uid);
+
+//     //OJO: Verificar que el email no se repita
+
+//     const userRef = collection(db, "users");
+//     // Guardar los datos adicionales en Cloud Firestore
+//     const userDoc = await addDoc(userRef, {
+//       email: email,
+//       password: password,
+//       name: name,
+//       surname: surname,
+//       birthdate: birthdate,
+//       city: city
+//     });
+
+//     // Retornar el usuario creado
+//     return userDoc;
+//   } catch (error) {
+//     // Manejar el error
+//     console.error(error);
+//   }
+// }
+
+
 async function createUserAndSaveData(email, password, name, surname, birthdate, city) {
   try {
     // Crear el usuario en Firebase Authentication
-    // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // const user = userCredential.user;
-
-    // // Crear una referencia al documento del usuario en Cloud Firestore
-    // const userRef = doc(db, "users", user.uid);
-
-    //OJO: Verificar que el email no se repita
-
-    const userRef = collection(db, "users");
-    // Guardar los datos adicionales en Cloud Firestore
-    const userDoc = await addDoc(userRef, {
+    const usuarioCreado = await auth.createUser({
       email: email,
       password: password,
+      displayName: name + " " + surname
+    });
+
+    // Obtener el UID del usuario creado
+    const uid = usuarioCreado.uid;
+
+    // Crear un documento en Firestore para el usuario con los datos proporcionados
+    await db.collection('users').doc(uid).set({
+      email: email,
       name: name,
       surname: surname,
       birthdate: birthdate,
-      city: city
+      city: city,
+      uid: uid
     });
 
-    // Retornar el usuario creado
-    return userDoc;
+    console.log('Usuario creado exitosamente:', usuarioCreado.toJSON());
+    return usuarioCreado;
   } catch (error) {
-    // Manejar el error
-    console.error(error);
+    console.error('Error al crear usuario:', error);
+    return false;
   }
 }
 
@@ -35,181 +66,178 @@ async function createUserAndSaveData(email, password, name, surname, birthdate, 
 
 
 //READ
-
-// async function getAllUsers(){
-//     const usersRef = collection(db, 'users');
-
-//     const usersSnapshot = await getDocs(usersRef);
-//     const usersList = usersSnapshot.docs.map(doc => doc.data());
-//     return usersList;
-
-// }
-
 async function getAllUsers() {
-  const usersRef = collection(db, 'users');
+  try {
+    // Obtener la colección de usuarios en Firestore
+    const snapshot = await db.collection('users').get();
+    const users = snapshot.docs.map(doc => doc.data());
+    console.log('Usuarios obtenidos exitosamente:', users);
 
-  const usersSnapshot = await getDocs(usersRef);
-  const usersList = usersSnapshot.docs.map(doc => {
-    const data = doc.data();
-    data.id = doc.id;
-    return data;
-  });
-  return usersList;
-}
-
-
-async function getUser(id) {
-  // const querySnapshot = await getDocs(query(collection(db, "users"), where("id", "==", id)));
-
-  // //const querySnapshot = await collection(db, "users")
-  //   //.where("id", "==", id)
-  //   //.get();
-
-  // const userData = querySnapshot.docs.map((doc) => doc.data());
-  // console.log("userData: ", querySnapshot);
-  // return userData[0];
-
-  const userRef = doc(db, "users", id);
-  const userSnap = await getDoc(userRef);
-
-  if (userSnap.exists()) {
-    return userSnap.data();
-  } else {
-    throw new Error("No existe un usuario con ese ID");
+    // Retornar la lista de usuarios
+    return users;
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    throw error; // Lanzar el error para que sea capturado en el catch del enrutador
   }
 }
 
-//UPDATE
 
-//Únicamente de firestore
 
-// async function updateUser(id, email, name, surname, birthdate, city) {
+// async function getUser(id) {
 
-//   try {
-//     const querySnapshot = await getDocs(query(collection(db, "users"), where("email", "==", emailAnterior)));
+//   const userRef = doc(db, "users", id);
+//   const userSnap = await getDoc(userRef);
 
-//     querySnapshot.forEach(async (doc) => {
-//       try {
-//         console.log("Usuario encontrado para modificar:", doc.data());
-//         // Actualizar los datos del usuario con los parámetros proporcionados
-//         await updateDoc(doc.ref, {
-//           email: emailNuevo,
-//           password: password,
-//           name: name,
-//           surname: surname,
-//           birthdate: birthdate,
-//           city: city
-//         });
-//         console.log("Datos del usuario actualizados con éxito");
-//       } catch (error) {
-//         console.error("Error al actualizar los datos del usuario:", error);
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Error al buscar el usuario por correo electrónico:", error);
+//   if (userSnap.exists()) {
+//     return userSnap.data();
+//   } else {
+//     throw new Error("No existe un usuario con ese ID");
 //   }
 // }
 
-async function updateUser(id, email, name, surname, birthdate, city) {
+// async function getUser(uid) {
+//   try {
+//     console.log("ID: ",uid);
+//     // Obtener el documento del usuario en Firestore mediante su ID
+//     const doc = await db.collection('users').doc(uid).get();
+
+//     // Verificar si el documento existe
+//     if (doc.exists) {
+//       const user = doc.data();
+//       console.log('Usuario obtenido exitosamente:', user);
+
+//       // Retornar el usuario obtenido
+//       return user;
+//     } else {
+//       console.error('No se encontró el usuario con el ID proporcionado');
+//       return null;
+//     }
+//   } catch (error) {
+//     console.error('Error al obtener usuario por ID:', error);
+//     throw error; // Lanzar el error para que sea capturado en el catch del enrutador
+//   }
+// }
+
+async function getUser(uid) {
   try {
-    const userRef = doc(db, "users", id);
-    const docSnapshot = await getDoc(userRef);
-    if (docSnapshot.exists()) {
-      console.log("Usuario encontrado para modificar:", docSnapshot.data());
-      // Actualizar los datos del usuario con los parámetros proporcionados
-      await updateDoc(userRef, {
-        email: email,
-        name: name,
-        surname: surname,
-        birthdate: birthdate,
-        city: city
-      });
-      console.log("Datos del usuario actualizados con éxito");
-      return "OK";
+    // Verificar si se proporcionó un ID de usuario
+    if (!uid) {
+      console.error('ID de usuario no proporcionado');
+      return null;
+    }
+
+    // Obtener el documento del usuario en Firestore mediante su ID
+    const querySnapshot = await db.collection('users').where('uid', '==', uid).get();
+
+    // Verificar si se encontraron resultados
+    if (!querySnapshot.empty) {
+      const userDoc = querySnapshot.docs[0];
+      const user = userDoc.data();
+      console.log('Usuario obtenido exitosamente:', user);
+
+      // Retornar el usuario obtenido
+      return user;
     } else {
-      console.error("No se encontró ningún usuario con el ID proporcionado");
+      console.error('No se encontró el usuario con el ID proporcionado:', uid);
+      return null;
     }
   } catch (error) {
-    console.error("Error al actualizar los datos del usuario:", error);
+    console.error('Error al obtener usuario por ID:', error);
+    throw error; // Lanzar el error para que sea capturado en el catch del enrutador
   }
 }
 
 
-// updateProfile(auth.currentUser, {
-//   displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
-// }).then(() => {
-//   // Profile updated!
-//   // ...
-// }).catch((error) => {
-//   // An error occurred
-//   // ...
-// });
+
+// //UPDATE
+
+// Actualizar los datos de un usuario existente en Firebase Authentication y Firestore
+async function updateUser(uid, email, name, surname, birthdate, city) {
+  try {
+    const newUser = {
+      uid: uid,
+      email: email,
+      name: name,
+      surname: surname,
+      birthdate: birthdate,
+      city: city
+    } 
+    console.log("New User", newUser);
+    // Actualizar el usuario en Firebase Authentication
+    await auth.updateUser(newUser.uid, {
+      email: newUser.email,
+      displayName: newUser.name + " " + newUser.surname
+    });
+
+    // Actualizar el documento en Firestore para el usuario con los datos proporcionados
+    await db.collection('users').doc(newUser.uid).update({
+      email: newUser.email,
+      name: newUser.name,
+      surname: newUser.surname,
+      birthdate: newUser.birthdate,
+      city: newUser.city
+    });
+
+    console.log('Datos de usuario actualizados exitosamente:', newUser.uid);
+
+    // Retornar un mensaje de éxito
+    return newUser;
+  } catch (error) {
+    console.error('Error al actualizar datos de usuario:', error);
+    throw error; // Lanzar el error para que sea capturado en el catch del enrutador
+  }
+}
 
 
 
-//DELETE
+
+// //DELETE
+
 
 async function deleteUser(id) {
   try {
-    // Crear una referencia al documento a eliminar en Firestore
-    const documentRef = doc(db, "users", id);
-    
-    // Eliminar el documento
-    await deleteDoc(documentRef);
-    console.log(`El usuario con id ${id} ha sido eliminado exitosamente.`);
+    // Eliminar el usuario de Firebase Authentication
+    await auth.deleteUser(id);
+    console.log('Usuario eliminado de Firebase Authentication:', id);
+
+    // Eliminar el documento de Firestore para el usuario
+    await db.collection('users').doc(id).delete();
+    console.log('Documento de usuario eliminado de Firestore:', id);
+
+    // Retornar un mensaje de éxito
+    return 'Usuario eliminado exitosamente';
   } catch (error) {
-    // Manejar el error
-    console.error(`Error al eliminar el usuario con id ${id}:`, error);
+    console.error('Error al eliminar usuario:', error);
+    throw error; // Lanzar el error para que sea capturado en el catch del enrutador
   }
 }
 
 
 
+// //Sign In
+// async function signIn(email, password) {
+//   try {
+//     auth().signInWithEmailAndPassword(email, password)
+//       .then((userCredential) => {
+//         // El usuario ha iniciado sesión correctamente
+//         const user = userCredential.user;
+//         console.log(`El usuario ${user.email} ha iniciado sesión.`);
+//       })
+//       .catch((error) => {
+//         // Ocurrió un error al iniciar sesión
+//         const errorCode = error.code;
+//         const errorMessage = error.message;
+//         console.error(`Error al iniciar sesión: ${errorMessage}`);
+//       });
+//   }
+//   catch (error) {
+//     console.error(error);
+//   }
+// }
+
+module.exports = { createUserAndSaveData, updateUser, deleteUser, getAllUsers, getUser };
+//, signIn, getAllUsers, updateUser, deleteUser, getUser 
 
 
 
 
-
-//Sign In
-async function signIn(email, password) {
-  try {
-    auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // El usuario ha iniciado sesión correctamente
-        const user = userCredential.user;
-        console.log(`El usuario ${user.email} ha iniciado sesión.`);
-      })
-      .catch((error) => {
-        // Ocurrió un error al iniciar sesión
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error al iniciar sesión: ${errorMessage}`);
-      });
-  }
-  catch (error) {
-    console.error(error);
-  }
-}
-
-module.exports = { createUserAndSaveData, signIn, getAllUsers, updateUser, deleteUser, getUser };
-
-
-
-
-
-//Documentación oficial
-
-/*Acceso a usuariosexistentes */
-/*import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth();
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  }); */

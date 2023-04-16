@@ -35,8 +35,8 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.city }}</td>
                     <td>{{ user.birthdate }}</td>
-                    <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditUser(user.id)" color="primary"></v-btn></td>
-                    <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleUser(user.id)"  color="secondary" class="deleteButton"></v-btn></td>
+                    <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditUser(user.uid)" color="primary"></v-btn></td>
+                    <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleUser(user.uid)"  color="secondary" class="deleteButton"></v-btn></td>
                 </tr>
             </tbody>
         </v-table>
