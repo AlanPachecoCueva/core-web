@@ -3,8 +3,6 @@
 const express = require('express');
 const router = express.Router();
 
-const app = express();
-
 
 //User methods
 const { createUserAndSaveData, updateUser, deleteUser, getAllUsers, getUser} = require('../Firebase/methods/userMethods');
@@ -13,9 +11,9 @@ const { createUserAndSaveData, updateUser, deleteUser, getAllUsers, getUser} = r
 router.post('/create', async (req, res) => {
   try {
     console.log("body: ", req.body);
-    const { email, password, name, surname, birthdate, city } = req.body;
+    const { email, password, name, surname, birthdate, city, isAdmin } = req.body;
     console.log("entra");
-    const user = await createUserAndSaveData(email, password, name, surname, birthdate, city);
+    const user = await createUserAndSaveData(email, password, name, surname, birthdate, city, isAdmin);
     res.status(201).json(user);
   } catch (error) {
     console.error(error);

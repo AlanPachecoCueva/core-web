@@ -1,38 +1,8 @@
 const { auth, db} = require('../firebase.js');
 
-//Create user
-// async function createUserAndSaveData(email, password, name, surname, birthdate, city) {
-//   try {
-//     // Crear el usuario en Firebase Authentication
-//     // const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-//     // const user = userCredential.user;
-
-//     // // Crear una referencia al documento del usuario en Cloud Firestore
-//     // const userRef = doc(db, "users", user.uid);
-
-//     //OJO: Verificar que el email no se repita
-
-//     const userRef = collection(db, "users");
-//     // Guardar los datos adicionales en Cloud Firestore
-//     const userDoc = await addDoc(userRef, {
-//       email: email,
-//       password: password,
-//       name: name,
-//       surname: surname,
-//       birthdate: birthdate,
-//       city: city
-//     });
-
-//     // Retornar el usuario creado
-//     return userDoc;
-//   } catch (error) {
-//     // Manejar el error
-//     console.error(error);
-//   }
-// }
 
 
-async function createUserAndSaveData(email, password, name, surname, birthdate, city) {
+async function createUserAndSaveData(email, password, name, surname, birthdate, city, isAdmin) {
   try {
     // Crear el usuario en Firebase Authentication
     const usuarioCreado = await auth.createUser({
@@ -51,6 +21,7 @@ async function createUserAndSaveData(email, password, name, surname, birthdate, 
       surname: surname,
       birthdate: birthdate,
       city: city,
+      isAdmin: isAdmin,
       uid: uid
     });
 
@@ -81,42 +52,6 @@ async function getAllUsers() {
   }
 }
 
-
-
-// async function getUser(id) {
-
-//   const userRef = doc(db, "users", id);
-//   const userSnap = await getDoc(userRef);
-
-//   if (userSnap.exists()) {
-//     return userSnap.data();
-//   } else {
-//     throw new Error("No existe un usuario con ese ID");
-//   }
-// }
-
-// async function getUser(uid) {
-//   try {
-//     console.log("ID: ",uid);
-//     // Obtener el documento del usuario en Firestore mediante su ID
-//     const doc = await db.collection('users').doc(uid).get();
-
-//     // Verificar si el documento existe
-//     if (doc.exists) {
-//       const user = doc.data();
-//       console.log('Usuario obtenido exitosamente:', user);
-
-//       // Retornar el usuario obtenido
-//       return user;
-//     } else {
-//       console.error('No se encontró el usuario con el ID proporcionado');
-//       return null;
-//     }
-//   } catch (error) {
-//     console.error('Error al obtener usuario por ID:', error);
-//     throw error; // Lanzar el error para que sea capturado en el catch del enrutador
-//   }
-// }
 
 async function getUser(uid) {
   try {
@@ -211,29 +146,6 @@ async function deleteUser(id) {
     throw error; // Lanzar el error para que sea capturado en el catch del enrutador
   }
 }
-
-
-
-// //Sign In
-// async function signIn(email, password) {
-//   try {
-//     auth().signInWithEmailAndPassword(email, password)
-//       .then((userCredential) => {
-//         // El usuario ha iniciado sesión correctamente
-//         const user = userCredential.user;
-//         console.log(`El usuario ${user.email} ha iniciado sesión.`);
-//       })
-//       .catch((error) => {
-//         // Ocurrió un error al iniciar sesión
-//         const errorCode = error.code;
-//         const errorMessage = error.message;
-//         console.error(`Error al iniciar sesión: ${errorMessage}`);
-//       });
-//   }
-//   catch (error) {
-//     console.error(error);
-//   }
-// }
 
 module.exports = { createUserAndSaveData, updateUser, deleteUser, getAllUsers, getUser };
 //, signIn, getAllUsers, updateUser, deleteUser, getUser 

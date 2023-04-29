@@ -50,7 +50,7 @@
 
 <script>
     //Función que retorna los usuarios registrados
-    import { getUsers, deleteUser } from '../controllers/usersController';
+    import { getUsers, deleteUser } from '../../controllers/usersController';
 
     export default {
         data() {

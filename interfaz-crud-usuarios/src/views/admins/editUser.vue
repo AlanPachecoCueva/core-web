@@ -111,7 +111,7 @@
 
 <script>
 
-import { getUserById, update } from "../controllers/usersController";
+import { getUserById, update } from "../../controllers/usersController";
 
 
 

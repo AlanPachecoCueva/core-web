@@ -1,16 +1,25 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+
 // Agregue el middleware de cors antes de definir las rutas
 app.use(cors());
 //const router = express.Router();
+
+
 // Importar el enrutador de usuarios
 const usersRouter = require('./routes/usersRoute');
 app.use(express.json());
 // Usar el enrutador para las rutas de usuarios
 app.use('/users', usersRouter);
 
-//Para permitir consultar datos desde la misma computadora
+
+
+// Importar el enrutador de usuarios
+const projectsRouter = require('./routes/projectRoute');
+// Usar el enrutador para las rutas de usuarios
+app.use('/projects', projectsRouter);
+
 
 // app.use(cors({
 //     origin: 'http://127.0.0.1:5173'

@@ -15,6 +15,11 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
+//Element plus
+import ElementPlus from 'element-plus'
+import 'element-plus/theme-chalk/index.css' // Importa los estilos de Element Plus
+
+
 //vueSweetAlert2
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -26,6 +31,7 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 app.use(vuetify)
+app.use(ElementPlus)
 app.use(createPinia())
 app.use(router)
 app.use(VueSweetalert2);
