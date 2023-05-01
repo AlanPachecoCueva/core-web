@@ -84,7 +84,7 @@
 <script>
 
 import { validateProjectName, validateTeamName, validateDescription, validateEndDate } from "../../validations/rules.js";
-import { getUsers } from "../../controllers/usersController.js";
+import { getUsersToCreateProject } from "../../controllers/usersController.js";
 
 import { createAProject } from "../../controllers/projectsController.js";
 
@@ -97,6 +97,7 @@ export default {
 
     data() {
         return {
+            user: {},
             project: {
                 author: "",
                 teamName: "",
@@ -132,9 +133,8 @@ export default {
     },
     methods: {
         async createProject() {
-            const store = useUserStore();
-            const user = store.getUser;
-            this.project.author = user.id;
+            
+            this.project.author = this.user.id;
             console.log("project to create: ", this.project);
             let res = await createAProject(this.project);
 
@@ -189,7 +189,11 @@ export default {
         },
     },
     async mounted() {
-        this.users = await getUsers();
+
+        const store = useUserStore();
+        this.user = store.getUser;
+
+        this.users = await getUsersToCreateProject(this.user.id);
 
         console.log("Users: ", this.users);
     }

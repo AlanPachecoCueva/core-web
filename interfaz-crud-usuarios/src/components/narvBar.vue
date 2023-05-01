@@ -1,6 +1,6 @@
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
+import { computed  } from 'vue';
 
 import { useUserStore } from "../stores/userStore";
 
@@ -12,14 +12,8 @@ export default {
         }
     },
     methods: {
-        goToNewUser() {
-            this.$router.push('/admin/new');
-        },
         goHome() {
-            // const idd = this.user.id;
-            // console.log("id login: ", idd);
-            // this.$router.push({ name: "admin", params: { id: idd } });
-            this.$router.push('/admin');
+            this.$router.push('/');
         },
         async signOut() {
             try {
@@ -30,9 +24,19 @@ export default {
             }
         }
     },
-    setup() {
+    setup(){
         const store = useUserStore();
-        const user = store.getUser;
+        const user = computed(() => {
+            return store.getUser;
+        });
+        console.log("User at navBar: ", user);
+        return { user }; 
+    },
+    mounted() {
+        const store = useUserStore();
+        const user = computed(() => {
+            return store.getUser;
+        });
         // watch(() => store.user, (newValue) => {
         //     user.value = newValue;
         // });
@@ -42,15 +46,6 @@ export default {
             console.log("User at navBar: ", user);
          return { user };
     },
-    updated() {
-        const store = useUserStore();
-        const user = ref(store.user);
-        watch(() => store.user, (newValue) => {
-            user.value = newValue;
-        });
-
-        return { user };
-    }
 }
 </script>
 
@@ -60,15 +55,12 @@ export default {
             <v-icon>mdi-home</v-icon>
         </v-btn>
 
-        <v-btn icon @click="goToNewUser()">
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
 
         <!-- <template v-slot:prepend>
                                     <v-app-bar-nav-icon></v-app-bar-nav-icon>
                                   </template> -->
 
-        <v-app-bar-title>USERS DASHBOARD</v-app-bar-title>
+        <v-app-bar-title>Guru Project</v-app-bar-title>
         <h2>Bienvenid@ {{ user.name }} {{ user.surname }} </h2>
 
         <v-btn @click="signOut()"> <v-icon>mdi-logout </v-icon></v-btn>

@@ -79,6 +79,17 @@ const getUsers = async () => {
     return users;
 }
 
+const getUsersToCreateProject = async (id) => {
+    const users = await getUsers();
+    if(users != "Error")
+    {
+        return users.filter((user) => user.uid !== id);
+    }
+
+    return null;
+}
+
+
 const getUserById = async (id) => {
     const user = await getUser(id);
 
@@ -105,4 +116,4 @@ const update = async (id, data) => {
 }
 
 
-export { getUsers, getUserById, update, create, deleteUser, logIn, logOut };
+export { getUsers, getUserById, update, create, deleteUser, logIn, logOut, getUsersToCreateProject };

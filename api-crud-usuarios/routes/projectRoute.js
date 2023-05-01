@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 //User methods
-const { createProject } = require('../Firebase/methods/projectMethods.js');
+const { createProject, getAllProjects } = require('../Firebase/methods/projectMethods.js');
 
 
 
@@ -21,5 +21,16 @@ router.post('/create', async (req, res) => {
         res.status(500).json({ message: 'Error creating project: ', error});
     }
 });
+
+router.get('/', async (req, res) => {
+    try {
+      const projects = await getAllProjects();
+      console.log("Projects: ", projects);
+      res.status(201).json(projects);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error obteniendo proyectos');
+    }
+  });
 
 module.exports = router;

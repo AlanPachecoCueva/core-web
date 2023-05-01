@@ -52,4 +52,38 @@ async function createProject(author, teamName, name, description, teamMembers, e
     }
 }
 
-module.exports = { createProject };
+//READ
+// async function getAllProjects() {
+//     try {
+//       // Obtener la colección de usuarios en Firestore
+//       const snapshot = await db.collection('projects').get();
+//       const projects = snapshot.docs.map(doc => doc.data());
+//       console.log('Proyectos obtenidos exitosamente:', projects);
+  
+//       // Retornar la lista de usuarios
+//       return projects;
+//     } catch (error) {
+//       console.error('Error al obtener proyectos:', error);
+//       throw error; // Lanzar el error para que sea capturado en el catch del enrutador
+//     }
+//   }
+
+async function getAllProjects() {
+    try {
+        // Obtener la colección de proyectos en Firestore
+        const snapshot = await db.collection('projects').get();
+        const projects = snapshot.docs.map(doc => {
+            // Agregar el ID del documento a los datos del proyecto
+            return { id: doc.id, ...doc.data() };
+        });
+        console.log('Proyectos obtenidos exitosamente:', projects);
+
+        // Retornar la lista de proyectos
+        return projects;
+    } catch (error) {
+        console.error('Error al obtener proyectos:', error);
+        throw error; // Lanzar el error para que sea capturado en el catch del enrutador
+    }
+}
+
+module.exports = { createProject, getAllProjects };
