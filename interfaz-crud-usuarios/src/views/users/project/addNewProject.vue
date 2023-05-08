@@ -83,12 +83,12 @@
 
 <script>
 
-import { validateProjectName, validateTeamName, validateDescription, validateEndDate } from "../../validations/rules.js";
-import { getUsersToCreateProject } from "../../controllers/usersController.js";
+import { validateProjectName, validateTeamName, validateDescription, validateEndDate } from "../../../validations/rules.js";
+import { getUsersToCreateProject } from "../../../controllers/usersController.js";
 
-import { createAProject } from "../../controllers/projectsController.js";
+import { createAProject } from "../../../controllers/projectsController.js";
 
-import { useUserStore } from "../../stores/userStore";
+import { useUserStore } from "../../../stores/userStore";
 
 export default {
 

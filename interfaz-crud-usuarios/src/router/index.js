@@ -6,7 +6,9 @@ import editUser from '../views/admins/editUser.vue'
 import newUser from '../views/admins/newUser.vue'
 import auth from '../views/auth.vue';
 import home from '../views/users/home.vue';
-import addNewProject from "../views/users/addNewProject.vue";
+import addNewProject from "../views/users/project/addNewProject.vue";
+import project from '../views/users/project/project.vue';
+import addNewTask from '../views/users/project/addNewTask.vue';
 
 //Auth para estado del usuario
 import { authFirebase } from '../config/firebase/firebaseConfig.js';
@@ -51,6 +53,16 @@ const router = createRouter({
       path: '/addNewProject',
       name: 'newProject',
       component: addNewProject,
+    },
+    {
+      path: '/project/:id',
+      name: 'project',
+      component: project,
+    },
+    {
+      path: '/addNewTask/:id',
+      name: 'newTask',
+      component: addNewTask,
     },
   ]
 })

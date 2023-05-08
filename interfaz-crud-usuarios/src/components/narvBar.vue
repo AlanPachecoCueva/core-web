@@ -50,7 +50,7 @@ export default {
 </script>
 
 <template>
-    <v-app-bar color="primary" density="compact" class="navBar">
+    <v-app-bar  density="compact" class="navBar">
         <v-btn icon @click="goHome()">
             <v-icon>mdi-home</v-icon>
         </v-btn>
@@ -63,15 +63,9 @@ export default {
         <v-app-bar-title>Guru Project</v-app-bar-title>
         <h2>Bienvenid@ {{ user.name }} {{ user.surname }} </h2>
 
-        <v-btn @click="signOut()"> <v-icon>mdi-logout </v-icon></v-btn>
+        <v-btn icon @click="signOut()"> <v-icon>mdi-logout </v-icon></v-btn>
         <!-- <template v-slot:append>
                                     <v-btn icon="mdi-dots-vertical"></v-btn>
                                   </template> -->
     </v-app-bar>
 </template>
-
-<style>
-.navBar {
-    position: inherit !important;
-}
-</style>

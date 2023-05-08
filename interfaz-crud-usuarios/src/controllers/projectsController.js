@@ -1,4 +1,4 @@
-import { createProject, getAllProjects } from "../models/projectsModel.js";
+import { createProject, getAllProjects, getProject } from "../models/projectsModel.js";
 
 
 const createAProject = async (userData) => {
@@ -55,4 +55,16 @@ const getProjectsList = async (id) => {
 
 }
 
-export { createAProject, getProjects, getProjectsList };
+const getProjectById = async (id) => {
+    const project = await getProject(id);
+
+    if (project === "Error fetching project") {
+        console.error("Error al llamar función getProjectById en projectModel, la respuesta dió error.");
+        return "Error";
+    }
+
+    console.log("Recuperado: ", project);
+    return project;
+}
+
+export { createAProject, getProjects, getProjectsList, getProjectById };

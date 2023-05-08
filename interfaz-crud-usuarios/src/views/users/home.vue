@@ -1,30 +1,37 @@
 
 <template>
     <div v-if="loading">Loading...</div>
+
     <div v-if="!loading">
-        <el-row class="row">
-            <el-col :span="5" class="column">
-                <el-card :body-style="{ padding: '0px' }">
-                    <img src="../../assets/images/AddProject.jpg" class="imageAddNew" />
-                    <div style="padding: 14px">
+        <el-row class="rowTop">
+            <!-- <el-col :span="5" class="column"> -->
+            <el-card :body-style="{ padding: '0px' }" id="cardNewProject" className="elCardGeneral">
+                <img src="../../assets/images/AddProject.jpg" class="imageAddNew" />
+                <div style="padding: 14px" id="contentCardnewProject">
 
-                        <span>Nuevo Proyecto</span>
-                        <div class="bottom">
-                            <el-button text class="button" @click="goToAddNewProject">Agregar</el-button>
-                        </div>
-
+                    <span>Nuevo Proyecto</span>
+                    <div class="bottom">
+                        <el-button text class="button" @click="goToAddNewProject">Agregar</el-button>
                     </div>
 
-                </el-card>
-            </el-col>
+                </div>
+
+            </el-card>
+
+            <div id="portadaContainer">
+                <img src="../../assets/images/PortadaProyecto.jpg" id="imagenPortada" />
+            </div>
+
+
+            <!-- </el-col> -->
         </el-row>
 
         <h1>Creados por mi</h1>
 
-        <el-row :gutter="20">
+        <el-row class="row">
             <el-col :span="4" v-for="project in ownProjects" :key="project.id">
                 <div class="grid-content ep-bg-purple projectElement">
-                    <el-card :body-style="{ padding: '0px' }">
+                    <el-card :body-style="{ padding: '0px' }" className="elCardGeneral">
                         <div class="imageProjectContainer">
                             <img src="../../assets/images/Project.jpg" class="imageProject" />
                         </div>
@@ -34,7 +41,7 @@
                             <span>{{ project.name }}</span>
                             <div>
                                 <span>{{ project.teamName }}</span>
-                                <el-button text @click="goToAddNewProject">Ver</el-button>
+                                <el-button text @click="goToViewProject(project.id)">Ver</el-button>
                             </div>
 
                         </div>
@@ -47,10 +54,10 @@
 
         <h1>En los que participo</h1>
 
-        <el-row :gutter="20">
+        <el-row class="row">
             <el-col :span="4" v-for="project in projects" :key="project.id">
                 <div class="grid-content ep-bg-purple projectElement">
-                    <el-card :body-style="{ padding: '0px' }">
+                    <el-card :body-style="{ padding: '0px' }" className="elCardGeneral">
                         <div class="imageProjectContainer">
                             <img src="../../assets/images/Project.jpg" class="imageProject" />
                         </div>
@@ -60,7 +67,7 @@
                             <span>{{ project.name }}</span>
                             <div>
                                 <span>{{ project.teamName }}</span>
-                                <el-button text @click="goToAddNewProject">Ver</el-button>
+                                <el-button text @click="goToViewProject(project.id)">Ver</el-button>
                             </div>
 
                         </div>
@@ -90,15 +97,15 @@ export default {
     methods: {
         goToAddNewProject() {
             this.$router.push('/addNewProject');
+        },
+        goToViewProject(id) {
+            this.$router.push({ name: "project", params: { id } });
         }
     },
     async mounted() {
 
         const store = useUserStore();
         const user = store.getUser;
-
-        //Usamos el controlador
-        //const allProjects = await getProjects();
 
         const listProjects = await getProjectsList(user.id);
 
@@ -115,6 +122,43 @@ export default {
 </script>
 
 <style>
+#portadaContainer {
+    width: 475px;
+    height: 300px;
+
+    /* border-radius: 100%; */
+
+}
+
+
+#imagenPortada {
+    width: 100%;
+    height: 100%;
+    /* filter: blur(5px); */
+}
+
+/* Agregar nuevo proyecto */
+#cardNewProject {
+    width: 150px;
+    height: 200px;
+
+    margin-right: 20%;
+    overflow: hidden;
+}
+
+.imageAddNew {
+    width: 100% !important;
+}
+
+/* ----------- */
+.imageProjectContainer {
+    display: flex;
+    width: 100%;
+
+    justify-content: center;
+}
+
+
 .projectElement {
     display: flex;
 
@@ -146,20 +190,17 @@ export default {
 /* ------------------- */
 
 
-.imageAddNew {
-    width: 100%;
-}
-
-.imageProjectContainer {
-    display: flex;
-    width: 100%;
-
-    justify-content: center;
-}
-
 .imageProject {
     width: 75%;
+}
 
+.rowTop {
+    width: 100%;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .row {
@@ -167,6 +208,8 @@ export default {
 
     margin-top: 10px;
     margin-bottom: 10px;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .column {

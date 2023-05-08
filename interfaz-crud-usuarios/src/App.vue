@@ -27,6 +27,9 @@ import navBarAdmin from './components/navBarAdmin.vue';
 .body {
   padding: 1% 5%;
   height: 100%;
+
+  background-color: #151b25;
+  color: white;
 }
 body {
   margin: 0;
@@ -115,7 +118,7 @@ export default {
           // Redirige a la ruta de autenticación solo si no es la misma ruta actual
           this.showNavBar = false;
           this.isLoading = false;
-          next();
+          
         } else {
           this.showLoading();
           //Verificar si está logueado, sino,  no se le deja pasar
@@ -127,21 +130,19 @@ export default {
               console.log('Acceso no autorizado, usuario no autenticado');
 
               this.showNavBar = false;
-              next();
             }
 
 
             this.showNavBar = true;
-            next();
           });
 
         }
 
-
+        next();
         //Swal.close();
       });
 
-
+      
       await router.isReady(); //esperar a que se carguen todas las rutas
 
 

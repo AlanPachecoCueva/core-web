@@ -59,7 +59,7 @@ async function createProject(author, teamName, name, description, teamMembers, e
 //       const snapshot = await db.collection('projects').get();
 //       const projects = snapshot.docs.map(doc => doc.data());
 //       console.log('Proyectos obtenidos exitosamente:', projects);
-  
+
 //       // Retornar la lista de usuarios
 //       return projects;
 //     } catch (error) {
@@ -86,4 +86,45 @@ async function getAllProjects() {
     }
 }
 
-module.exports = { createProject, getAllProjects };
+async function getProject(id) {
+    try {
+        // Verificar si se proporcionó un ID de usuario
+        if (!id) {
+            console.error('ID de proyecto no proporcionado');
+            return null;
+        }
+
+        // Obtener el documento del usuario en Firestore mediante su ID
+        const collectionRef = await db.collection('projects');
+        try {
+            const doc = await collectionRef.doc(id).get();
+            if (!doc.exists) {
+                console.log('No se encontró ningún proyecto con el ID proporcionado');
+                return null;
+            }
+            return doc.data();
+        } catch (error) {
+            console.error('Error al buscar el documento:', error);
+            return null;
+        }
+
+
+        // // Verificar si se encontraron resultados
+        // if (!querySnapshot.empty) {
+        //     const projectDoc = querySnapshot.docs[0];
+        //     const project = projectDoc.data();
+        //     console.log('Proyecto obtenido exitosamente:', project);
+
+        //     // Retornar el usuario obtenido
+        //     return project;
+        // } else {
+        //     console.error('No se encontró el proyecto con el ID proporcionado:', id);
+        //     return null;
+        // }
+    } catch (error) {
+        console.error('Error al obtener proyecto por ID:', error);
+        throw error; // Lanzar el error para que sea capturado en el catch del enrutador
+    }
+}
+
+module.exports = { createProject, getAllProjects, getProject };

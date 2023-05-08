@@ -32,5 +32,19 @@ async function createProject(projectData) {
       return [];
     }
   };
+
+  const getProject = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/projects/project/${id}`);
+      if (!response.ok) {
+        throw new Error('No se pudo obtener el proyecto');
+      }
+      const user = await response.json();
+      return user;
+    } catch (error) {
+      console.error('Error al obtener el proyecto:', error);
+      return "Error fetching project";
+    }
+  };
   
-  export { createProject, getAllProjects };
+  export { createProject, getAllProjects, getProject };

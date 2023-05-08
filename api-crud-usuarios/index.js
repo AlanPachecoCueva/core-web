@@ -15,11 +15,16 @@ app.use('/users', usersRouter);
 
 
 
-// Importar el enrutador de usuarios
+// Importar el enrutador de proyectos
 const projectsRouter = require('./routes/projectRoute');
-// Usar el enrutador para las rutas de usuarios
+// Usar el enrutador para las rutas de proyectos
 app.use('/projects', projectsRouter);
 
+
+// Importar el enrutador de tareas
+const tasksRouter = require('./routes/taskRoute');
+// Usar el enrutador para las rutas de tareas
+app.use('/tasks', tasksRouter);
 
 // app.use(cors({
 //     origin: 'http://127.0.0.1:5173'

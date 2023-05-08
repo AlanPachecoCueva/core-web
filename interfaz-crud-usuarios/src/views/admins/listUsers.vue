@@ -1,6 +1,6 @@
 <template>
     
-    <v-card text="List of users" cclass="red">
+    <v-card text="List of users" class="red">
         <div v-if="loading">Loading...</div>
         <v-table v-if="!loading">
             <thead>

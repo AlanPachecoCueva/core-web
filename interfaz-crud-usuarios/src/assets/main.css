@@ -1,0 +1,16 @@
+
+.navBar {
+    position: inherit !important;
+    background: linear-gradient(to right, #0a2a4b, #1998a8) !important;
+    color: white !important; 
+}
+
+.elCardGeneral {
+    /* background: linear-gradient(to right, #242424, rgb(41, 56, 56)) !important; */
+    background-color: #111e2a !important;
+    border: 1px solid rgba(22, 85, 93, 0.5);
+    /* Color del borde */
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px rgba(9, 75, 84, 0.5);
+    /* Sombra del borde */
+}

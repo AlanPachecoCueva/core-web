@@ -90,11 +90,12 @@ const getUsersToCreateProject = async (id) => {
 }
 
 
+
 const getUserById = async (id) => {
     const user = await getUser(id);
 
     if (user === "Error fetching user") {
-        console.error("Error al llamar función getAllUsers en usersModel, la respuesta dió error.");
+        console.error("Error al llamar función getUserById en usersModel, la respuesta dió error.");
         return "Error";
     }
 
