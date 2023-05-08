@@ -1,9 +1,12 @@
 
+//Ruta para la api
+const RUTA_SERVIDOR = `${import.meta.env.VITE_APP_RUTA_API}`;
+
 async function createProject(projectData) {
     try {
       const { author, teamName, name, description, teamMembers, estimatedEndDate } = projectData;
   
-      const response = await fetch('http://localhost:3000/projects/create', {
+      const response = await fetch(`${RUTA_SERVIDOR}/projects/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -21,7 +24,7 @@ async function createProject(projectData) {
 
   const getAllProjects = async () => {
     try {
-      const response = await fetch('http://localhost:3000/projects/');
+      const response = await fetch(`${RUTA_SERVIDOR}/projects/`);
       if (!response.ok) {
         throw new Error('Error fetching projects');
       }
@@ -35,7 +38,7 @@ async function createProject(projectData) {
 
   const getProject = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/projects/project/${id}`);
+      const response = await fetch(`${RUTA_SERVIDOR}/projects/project/${id}`);
       if (!response.ok) {
         throw new Error('No se pudo obtener el proyecto');
       }

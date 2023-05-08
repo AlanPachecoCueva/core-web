@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       user: {
-
+        isAdmin: false,
       },
       showNavBar: true,
       isLoading: true,
@@ -99,20 +99,21 @@ export default {
     }
   },
   async mounted() {
+    console.log(":C  :  ",`${import.meta.env.VITE_APP_RUTA_API}`);
     try {
 
       const store = useUserStore();
-      this.user = computed(() => {
+      const userByStore = computed(() => {
         return store.getUser;
       });
-      console.log("AAAA: ", this.user);
+
+      if(userByStore.data != null && userByStore != undefined){
+        this.user = userByStore;
+      }
 
       router.beforeEach((to, from, next) => {
         // Ejecuta el código que deseas antes de que se redirija a cualquier ruta
         //const currentUser = authFirebase.currentUser;
-
-
-
 
         if (to.path == '/auth') {
           // Redirige a la ruta de autenticación solo si no es la misma ruta actual
@@ -143,7 +144,7 @@ export default {
       });
 
       
-      await router.isReady(); //esperar a que se carguen todas las rutas
+      //await router.isReady(); //esperar a que se carguen todas las rutas
 
 
 

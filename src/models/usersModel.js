@@ -1,10 +1,13 @@
 import { authFirebase, signInWithEmailAndPassword } from "../config/firebase/firebaseConfig";
 
+//Ruta para la api
+const RUTA_SERVIDOR = `${import.meta.env.VITE_APP_RUTA_API}`;
+
 async function createUser(userData) {
   try {
     const { email, name, surname, birthdate, city, password, isAdmin } = userData;
-
-    const response = await fetch('http://localhost:3000/users/create', {
+    
+    const response = await fetch(`${RUTA_SERVIDOR}/users/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -29,7 +32,8 @@ async function signIn(userData) {
 
     const uid = user.uid;
 
-    const resApi = await fetch(`http://localhost:3000/users/user/${uid}`);
+    console.log("CHAAAAAAAAAAAAA: ", `${RUTA_SERVIDOR}/users/user/${uid}`);
+    const resApi = await fetch(`${RUTA_SERVIDOR}/users/user/${uid}`);
 
     console.log("resApi.ok: ", resApi.ok);
     // Comprueba si la respuesta de la API es exitosa
@@ -79,7 +83,7 @@ async function signOut() {
 
 async function deleteUserById(id) {
   try {
-    const response = await fetch(`http://localhost:3000/users/delete/${id}`, {
+    const response = await fetch(`${RUTA_SERVIDOR}/users/delete/${id}`, {
       method: 'DELETE'
     });
     const data = await response.text();
@@ -96,7 +100,7 @@ async function deleteUserById(id) {
 
 const getAllUsers = async () => {
   try {
-    const response = await fetch('http://localhost:3000/users/');
+    const response = await fetch(`${RUTA_SERVIDOR}/users/`);
     if (!response.ok) {
       throw new Error('Error fetching users');
     }
@@ -110,7 +114,7 @@ const getAllUsers = async () => {
 
 const getUser = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/users/user/${id}`);
+    const response = await fetch(`${RUTA_SERVIDOR}/users/user/${id}`);
     if (!response.ok) {
       throw new Error('No se pudo obtener el usuario');
     }
@@ -126,7 +130,7 @@ const updateUser = async (id, userData) => {
   try {
 
     const { email, name, surname, birthdate, city } = userData;
-    const response = await fetch(`http://localhost:3000/users/update`, {
+    const response = await fetch(`${RUTA_SERVIDOR}/users/update`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

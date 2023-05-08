@@ -3,13 +3,13 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebas
 import router from "../../router/index.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBCSMzzP5UD-7g_Mi1FEOtfj2IUjZoQaYg",
-    authDomain: "ingweb-ap.firebaseapp.com",
-    projectId: "ingweb-ap",
-    storageBucket: "ingweb-ap.appspot.com",
-    messagingSenderId: "936544478001",
-    appId: "1:936544478001:web:563092b879350a2d878610",
-    measurementId: "G-WV9F4WD9QM"
+    apiKey: `${import.meta.env.VITE_FB_APIKEY}`,
+    authDomain: `${import.meta.env.VITE_FB_AUTH_DOMAIN}`,
+    projectId: `${import.meta.env.VITE_FB_PROJECT_ID}`,
+    storageBucket: `${import.meta.env.VITE_FB_STORAGE_BUCKET}`,
+    messagingSenderId: `${import.meta.env.VITE_FB_MESSAGING_SENDER_ID}`,
+    appId: `${import.meta.env.VITE_FB_APP_ID}`,
+    measurementId: `${import.meta.env.VITE_FB_MEASUREMENT_ID}`
   };
 
 // Initialize Firebase

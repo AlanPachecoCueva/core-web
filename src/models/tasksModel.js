@@ -1,9 +1,12 @@
 
+//Ruta para la api
+const RUTA_SERVIDOR = `${import.meta.env.VITE_APP_RUTA_API}`;
+
 async function createTask(taskData) {
     try {
       const { projectId, author, name, description, startDate, estimatedEndDate, members, objectives } = taskData;
   
-      const response = await fetch('http://localhost:3000/tasks/create', {
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -21,7 +24,7 @@ async function createTask(taskData) {
 
   const getTasksOfProject = async (projectId) => {
     try {
-      const response = await fetch(`http://localhost:3000/tasks/${projectId}`);
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/${projectId}`);
       if (!response.ok) {
         throw new Error('Error fetching tasks');
       }
@@ -35,7 +38,7 @@ async function createTask(taskData) {
 
   const getTask = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/tasks/task/${id}`);
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/task/${id}`);
       if (!response.ok) {
         throw new Error('No se pudo obtener la tarea');
       }
