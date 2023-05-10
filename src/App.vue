@@ -104,6 +104,10 @@ export default {
       
       this.user = userNew;
 
+      if(this.user.isAdmin == null || this.user.isAdmin == undefined){
+        this.user.isAdmin = false;
+      }
+
       router.beforeEach((to, from, next) => {
         // Ejecuta el código que deseas antes de que se redirija a cualquier ruta
         //const currentUser = authFirebase.currentUser;
