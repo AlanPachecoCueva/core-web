@@ -144,6 +144,7 @@ export default {
                     showCancelButton: false,
                     confirmButtonText: "OK",
                 });
+                this.$router.push('/admin/project/');
             }else{
                 await this.$swal({
                         title: "¡Error creating project!",

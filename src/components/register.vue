@@ -1,9 +1,9 @@
 
 <template>
     <div class="containerRegister">
-        <v-card class="mx-auto cardRegister" max-width="500">
+        <v-card class="cardRegister" max-width="500">
             <v-card-title>Register</v-card-title>
-            <v-img class="align-end text-white" height="200"
+            <v-img height="200"
                 src="https://res.cloudinary.com/dbftfrguy/image/upload/v1680650258/Premium_Vector___Cute_offline_twitch_banner_igj12t.jpg"
                 cover>
             </v-img>
@@ -86,7 +86,7 @@ import { ElDatePicker } from 'element-plus';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-import {logIn} from '../controllers/usersController';
+import { logIn } from '../controllers/usersController';
 
 export default {
 
@@ -160,18 +160,30 @@ export default {
             }
 
             const result = await this.$swal({
-                title: '¿Desea registrarse?',
+                title: '¿Do you want to register?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí',
-                cancelButtonText: "No",
+                confirmButtonText: 'Yes',
+                cancelButtonText: "Not",
             });
             if (result.isConfirmed) {
 
                 const res = await create(this.user);
 
+                //Valida si el usuario se creó correctamente
+                if (!res) {
+                    await this.$swal({
+                        title: "¡User when trying to create user!",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+
+                    return;
+                }
+
                 await this.$swal({
-                    title: "¡Usuario creado correctamente!",
+                    title: "¡User created successfully!",
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonText: "OK",
@@ -181,16 +193,13 @@ export default {
                 const response = await logIn({ email: this.user.email, password: this.user.password })
 
 
-                if (response == null) {
-
+                if (!response) {
                     await this.$swal({
-                        title: "¡Error al iniciar sesión!",
+                        title: "¡Error when trying to log in!",
                         icon: "error",
                         showCancelButton: false,
                         confirmButtonText: "OK",
                     });
-
-
                 }
 
                 //Si el responde.admin es true quiere decir que es administrador entonces se le redirecciona al dashboard
@@ -309,13 +318,13 @@ export default {
 
 .containerRegister {
     width: 100%;
-    height: 100%;
+    height: 200% !important;
     display: grid;
 }
 
 .cardRegister {
-    margin: auto;
-    width: 50%;
+    margin: auto !important;
+    width: 50% !important;
     display: flex !important;
     flex-direction: column !important;
     justify-items: center !important;

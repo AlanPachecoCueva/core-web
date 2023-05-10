@@ -24,16 +24,10 @@ import navBarAdmin from './components/navBarAdmin.vue';
 </template>
 
 <style>
-.body {
-  padding: 1% 5%;
-  height: 100%;
-
-  background-color: #151b25;
-  color: white;
-}
 body {
   margin: 0;
 }
+
 .loading {
   width: 100%;
   height: 100%;
@@ -99,17 +93,16 @@ export default {
     }
   },
   async mounted() {
-    console.log(":C  :  ",`${import.meta.env.VITE_APP_RUTA_API}`);
     try {
 
       const store = useUserStore();
-      const userByStore = computed(() => {
+      this.user = store.getUser;
+
+      const userNew = computed(() => {
         return store.getUser;
       });
-
-      if(userByStore.data != null && userByStore != undefined){
-        this.user = userByStore;
-      }
+      
+      this.user = userNew;
 
       router.beforeEach((to, from, next) => {
         // Ejecuta el código que deseas antes de que se redirija a cualquier ruta
@@ -119,7 +112,7 @@ export default {
           // Redirige a la ruta de autenticación solo si no es la misma ruta actual
           this.showNavBar = false;
           this.isLoading = false;
-          
+
         } else {
           this.showLoading();
           //Verificar si está logueado, sino,  no se le deja pasar
@@ -140,16 +133,7 @@ export default {
         }
 
         next();
-        //Swal.close();
       });
-
-      
-      //await router.isReady(); //esperar a que se carguen todas las rutas
-
-
-
-      // forzar refresco de la página
-      // window.location.reload(true);
 
     } catch (error) {
       console.log(error);

@@ -71,7 +71,7 @@
                 <el-switch v-model="user.isAdmin" active-value="true" inactive-value="false"></el-switch>
             </div>
 
-            <el-button type="primary" :icon="Delete" @click="createUser()">Registrarse</el-button>
+            <el-button type="primary" :icon="Delete" @click="createUser()">Crear Usuario</el-button>
         </v-card>
     </div>
 </template>
@@ -85,9 +85,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 //Validaciones
-import { validateEmail, validateName, validateSurname, validateCity, validatePassword, validateBirthdate } from "../../validations/rules.js";
+import { validateEmail, validateName, validateSurname, validateCity, validatePassword, validateBirthdate } from "../../../validations/rules.js";
 
-import { create } from "../../controllers/usersController";
+import { create } from "../../../controllers/usersController";
 
 export default {
     data() {
@@ -140,7 +140,7 @@ export default {
             //Comprobar que las contraseñas sean iguales
             if (!this.verifyPassword.state) {
                 await this.$swal({
-                    title: "La contraseña y la confirmación de contraseña deben ser iguales.",
+                    title: "Password and confirm password needs to be equals.",
                     icon: "error",
                     showCancelButton: false,
                     confirmButtonText: "OK",
@@ -150,7 +150,7 @@ export default {
 
             if (!this.isFormatValid) {
                 await this.$swal({
-                    title: "Asegúrate que los datos cumplan con las reglas mostradas a la derecha.",
+                    title: "Please follow the input rules.",
                     icon: "error",
                     showCancelButton: false,
                     confirmButtonText: "OK",
@@ -160,7 +160,7 @@ export default {
             }
 
             const result = await this.$swal({
-                title: '¿Desea registrarse?',
+                title: '¿Do you want to create a new user?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Sí',
@@ -170,14 +170,26 @@ export default {
 
                 const res = await create(this.user);
 
+                //Valida si el usuario se creó correctamente
+                if (!res) {
+                    await this.$swal({
+                        title: "¡Error when trying to create user!",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+                    
+                    return;
+                }
+
                 await this.$swal({
-                    title: "¡Usuario creado correctamente!",
+                    title: "¡User created successfully!",
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonText: "OK",
                 });
 
-                this.$router.push('/homeAdmin');
+                this.$router.push('/admin/users');
             }
 
         },

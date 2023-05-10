@@ -1,14 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 //Views from components
-import listUsers from '../views/admins/listUsers.vue'
-import editUser from '../views/admins/editUser.vue'
-import newUser from '../views/admins/newUser.vue'
 import auth from '../views/auth.vue';
+
+//Usuarios normales
 import home from '../views/users/home.vue';
 import addNewProject from "../views/users/project/addNewProject.vue";
 import project from '../views/users/project/project.vue';
 import addNewTask from '../views/users/project/addNewTask.vue';
+
+//Admins
+import homeAdmin from '../views/admins/homeAdmin.vue';
+//Users
+import listUsers from '../views/admins/manageUsers/listUsers.vue'
+import editUser from '../views/admins/manageUsers/editUser.vue'
+import newUser from '../views/admins/manageUsers/newUser.vue'
+//Projects
+import listProjects from '../views/admins/manageProjects/listProjects.vue'
+import editProject from '../views/admins/manageProjects/editProject.vue'
+import newProject from '../views/admins/manageProjects/newProject.vue'
 
 //Auth para estado del usuario
 import { authFirebase } from '../config/firebase/firebaseConfig.js';
@@ -34,6 +44,11 @@ const router = createRouter({
     {
       path: '/homeAdmin',
       name: 'homeAdmin',
+      component: homeAdmin
+    },
+    {
+      path: '/admin/users',
+      name: 'listUsers',
       component: listUsers
     },
     {
@@ -46,6 +61,22 @@ const router = createRouter({
       path: '/admin/new',
       name: 'newUser',
       component: newUser,
+    },
+    {
+      path: '/admin/project/',
+      name: 'listProjects',
+      component: listProjects
+    },
+    {
+      path: '/admin/project/edit/:id',
+      name: 'editProject',
+      component: editProject,
+      props: true
+    },
+    {
+      path: '/admin/project/new',
+      name: 'newProjectAdmin',
+      component: newProject,
     },
 
     //Para usuarios normales------------------------

@@ -3,117 +3,117 @@ import { getAllUsers, getUser, updateUser, createUser, deleteUserById, signIn, s
 import { useUserStore } from '../stores/userStore.js';
 
 const create = async (userData) => {
-    const res = await createUser(userData);
+    try {
+        const res = await createUser(userData);
 
-    if (res === null) {
-        console.error("Error al crear usuario.");
-        return "Error";
+        return res;
+    } catch (error) {
+        console.error("Error creating user: ", error);
+        return false;
     }
-    return res;
+
 }
 
 
 const logIn = async (userData) => {
     try {
-        console.log("REEES login");
         const res = await signIn(userData);
 
-        if (res !== null) {
-            console.log("Usuario logueado correctamente: ", res);
-
-
-
+        if (res) {
             //Guardar el usuario en el store
             const userStore = useUserStore();
-
             userStore.setUser(res);
             const isLogued = userStore.setIsLogued(true);
-
-            console.log("User guardado en store eeeeeeee: ", res);
-
             return res;
+        } else {
+            console.error(error);
+            return false;
         }
 
     } catch (error) {
-        console.log("Ocurrió un error al loguear al usuario");
         console.error(error);
-        return null;
+        return false;
     }
-
-
 }
 
 const logOut = async () => {
     try {
         const res = await signOut();
 
-        const userStore = useUserStore();
+        if (res) {
+            //El cierre fue exitoso
+            const userStore = useUserStore();
 
-        const isLogued = userStore.setIsLogued(false);
-
+            const isLogued = userStore.setIsLogued(false);
+        } else {
+            console.error("Unable to log out.");
+            return false;
+        }
     } catch (error) {
         console.error(error);
-        return null;
+        return false;
     }
 }
 
 const deleteUser = async (id) => {
-    const res = await deleteUserById(id);
+    try {
+        const res = await deleteUserById(id);
 
-    if (res === null) {
-        console.error("Error al crear usuario.");
-        return "Error";
+        return true;
+    } catch (error) {
+        return false;
     }
-    return true;
+
 
 }
 
 const getUsers = async () => {
-    const users = await getAllUsers();
+    try {
 
-    if (users === "Error fetching users") {
-        console.error("Error al llamar función getAllUsers en usersController, la respuesta dió error.");
-        return "Error";
+        const users = await getAllUsers();
+        return users;
+
+    } catch (error) {
+        return false;
     }
 
-    return users;
 }
 
 const getUsersToCreateProject = async (id) => {
     const users = await getUsers();
-    if(users != "Error")
-    {
+    if (users) {
         return users.filter((user) => user.uid !== id);
     }
 
-    return null;
+    return false;
 }
 
 
 
 const getUserById = async (id) => {
-    const user = await getUser(id);
-
-    if (user === "Error fetching user") {
-        console.error("Error al llamar función getUserById en usersModel, la respuesta dió error.");
-        return "Error";
+    try {
+        const user = await getUser(id);
+        return user;
+    } catch (error) {
+        return false;
     }
 
-    console.log("Recuperado: ", user);
-    return user;
 }
 
 
 
 const update = async (id, data) => {
-    const res = await updateUser(id, data);
+    try {
+        const res = await updateUser(id, data);
 
-    if (!res) {
-
-        console.error("Error al llamar función getAllUsers en usersModel, la respuesta dió error.");
-        return "Error";
+        if (!res) {
+            throw new Error("¡Unknow Error!");
+        }
+        return true;
+    }catch(error){
+        return false;
     }
-    return true;
+    
 }
 
 

@@ -1,6 +1,6 @@
 
 <script>
-import { computed  } from 'vue';
+import { computed } from 'vue';
 
 import { useUserStore } from "../stores/userStore";
 
@@ -12,14 +12,8 @@ export default {
         }
     },
     methods: {
-        goToNewUser() {
-            this.$router.push('/admin/new');
-        },
         goHome() {
-            // const idd = this.user.id;
-            // console.log("id login: ", idd);
-            // this.$router.push({ name: "admin", params: { id: idd } });
-            this.$router.push('/admin');
+            this.$router.push('/homeAdmin');
         },
         async signOut() {
             try {
@@ -30,13 +24,13 @@ export default {
             }
         }
     },
-    setup(){
+    setup() {
         const store = useUserStore();
         const user = computed(() => {
             return store.getUser;
         });
         console.log("User at navBar: ", user);
-        return { user }; 
+        return { user };
     },
     mounted() {
         const store = useUserStore();
@@ -46,36 +40,15 @@ export default {
         console.log("User at navBar: ", user);
         return { user };
     },
-    
 }
 </script>
 
 <template>
-    <v-app-bar color="primary" density="compact" class="navBar">
-        <v-btn icon @click="goHome()">
-            <v-icon>mdi-home</v-icon>
-        </v-btn>
-
-        <v-btn icon @click="goToNewUser()">
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
-
-        <!-- <template v-slot:prepend>
-                                    <v-app-bar-nav-icon></v-app-bar-nav-icon>
-                                  </template> -->
-
-        <v-app-bar-title>USERS DASHBOARD</v-app-bar-title>
+    <v-app-bar density="compact" class="navBar">
+        <i @click="goHome()" class="mdi mdi-home mdi-36px iconBtn"></i>
+        <v-app-bar-title id="barTitle">Guru Project - Admin</v-app-bar-title>
         <h2>Bienvenid@ {{ user.name }} {{ user.surname }} </h2>
 
-        <v-btn @click="signOut()"> <v-icon>mdi-logout </v-icon></v-btn>
-        <!-- <template v-slot:append>
-                                    <v-btn icon="mdi-dots-vertical"></v-btn>
-                                  </template> -->
+        <i @click="signOut()" class="mdi mdi-logout mdi-36px iconBtn"></i>
     </v-app-bar>
 </template>
-
-<style>
-.navBar {
-    position: inherit !important;
-}
-</style>

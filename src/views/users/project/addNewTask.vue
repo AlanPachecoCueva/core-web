@@ -233,7 +233,6 @@ export default {
                 this.$router.push({ name: "newTask", params: { id } });
 
             }
-            console.log("RES create task: ", res);
             return;
 
         }

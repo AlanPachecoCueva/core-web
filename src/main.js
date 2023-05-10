@@ -23,7 +23,7 @@ import '@element-plus/icons-vue'
 //vueSweetAlert2
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-
+import { mdiAccount } from '@mdi/js'
 
 
 const vuetify = createVuetify({
@@ -32,6 +32,7 @@ const vuetify = createVuetify({
 });
 
 const app = createApp(App)
+app.component('mdi-account', mdiAccount)
 app.use(vuetify)
 app.use(ElementPlus)
 app.use(createPinia())

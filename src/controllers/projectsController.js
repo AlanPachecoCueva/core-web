@@ -1,70 +1,122 @@
-import { createProject, getAllProjects, getProject } from "../models/projectsModel.js";
-
+import { createProject, getAllProjects, getProject, deleteProjectById, updateProject } from "../models/projectsModel.js";
 
 const createAProject = async (userData) => {
-    const res = await createProject(userData);
+    try {
+        const res = await createProject(userData);
 
-    if (res === null) {
-        console.error("Error al crear proyecto.");
-        return "Error";
+        if (!res) {
+            console.error("Error creating project.");
+            return false;
+        }
+        return res;
+    } catch (error) {
+        console.error(error);
+        return false;
     }
-    return res;
+
 }
 
 const getProjects = async () => {
-    const projects = await getAllProjects();
+    try {
+        const projects = await getAllProjects();
 
-    if (projects === "Error fetching projects") {
-        console.error("Error al llamar función getAllProjects en usersController, la respuesta dió error.");
-        return "Error";
+        if (!projects) {
+            console.error("Error getting projects");
+            return false;
+        }
+
+        return projects;
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 
-    return projects;
 }
 
 const getProjectsList = async (id) => {
-    const allProjects = await getProjects();
 
-    const ownProjects = allProjects.filter(project => project.author == id);
+    try {
+        const allProjects = await getProjects();
 
-    const projects = allProjects.filter(project => {
-        let participa = false;
+        if (!allProjects) {
+            console.error("Error getting projects");
+            return false;
+        }
 
-        for(let i = 0; i < project.teamMembers.length; i++){
-            //Si al menos un id de los participantes coincide con el id enviado
-            //Entonces se agrega el proyecto
-            if(project.teamMembers[i] == id){
-                participa = true;
-                break;
+        const ownProjects = allProjects.filter(project => project.author == id);
+
+        const projects = allProjects.filter(project => {
+            let participa = false;
+
+            for (let i = 0; i < project.teamMembers.length; i++) {
+                //Si al menos un id de los participantes coincide con el id enviado
+                //Entonces se agrega el proyecto
+                if (project.teamMembers[i] == id) {
+                    participa = true;
+                    break;
+                }
             }
+
+            if (participa) {
+                return project;
+            }
+            return false;
+        });
+
+
+        const projectsList = {
+            ownProjects,
+            projects
         }
 
-        if(participa){
-            return project;
-        }
-        return;
-    });
-
-
-    const projectsList = {
-        ownProjects,
-        projects
+        return projectsList;
+    } catch (error) {
+        return false;
     }
-    console.log("ALL PROJECTS: ", allProjects);
-    return projectsList;
 
 }
 
 const getProjectById = async (id) => {
-    const project = await getProject(id);
+    try {
+        const project = await getProject(id);
 
-    if (project === "Error fetching project") {
-        console.error("Error al llamar función getProjectById en projectModel, la respuesta dió error.");
-        return "Error";
+        if (!project) {
+            console.error("Error getting project.");
+            return false;
+        }
+
+        return project;
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 
-    console.log("Recuperado: ", project);
-    return project;
 }
 
-export { createAProject, getProjects, getProjectsList, getProjectById };
+const deleteProject = async (id) => {
+    try {
+        const res = await deleteProjectById(id);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+
+
+}
+
+const updateProjectById = async (id, data) => {
+    try {
+        const res = await updateProject(id, data);
+
+        if (!res) {
+            throw new Error("¡Unknow Error!");
+        }
+        return true;
+    }catch(error){
+        return false;
+    }
+    
+}
+
+export { createAProject, getProjects, getProjectsList, getProjectById, deleteProject, updateProjectById };
