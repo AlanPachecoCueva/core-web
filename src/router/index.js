@@ -26,7 +26,7 @@ import { useUserStore } from '../stores/userStore.js';
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: '',
   routes: [
     //Para el login/register
     {
