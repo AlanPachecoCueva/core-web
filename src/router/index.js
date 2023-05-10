@@ -26,7 +26,7 @@ import { useUserStore } from '../stores/userStore.js';
 
 
 const router = createRouter({
-  history: '',
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     //Para el login/register
     {
@@ -95,6 +95,10 @@ const router = createRouter({
       name: 'newTask',
       component: addNewTask,
     },
+    // {
+    //   path: '/:pathMatch(.*)*',
+    //   component
+    // }
   ]
 })
 
