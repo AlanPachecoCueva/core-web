@@ -103,7 +103,7 @@ export default {
       });
       
       this.user = userNew;
-
+      console.log("User en app: ", this.user);
       if(this.user.isAdmin == null || this.user.isAdmin == undefined){
         this.user.isAdmin = false;
       }

@@ -110,7 +110,9 @@ router.beforeEach((to, from, next) => {
     //Verificar si está logueado, sino,  no se le deja pasar
 
     const userStore = useUserStore();
-
+    
+    console.log("userStore router: ", userStore);
+    
     const isLogued = userStore.getIsLogued;
 
     console.log("isLogued: ", isLogued);
