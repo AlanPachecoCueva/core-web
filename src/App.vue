@@ -92,21 +92,20 @@ export default {
 
     }
   },
-  async mounted() {
+  mounted() {
     try {
 
       const store = useUserStore();
-      this.user = store.getUser;
+      //const storeUser = store.getUser;
 
       const userNew = computed(() => {
         return store.getUser;
       });
-      
-      this.user = userNew;
-      console.log("User en app: ", this.user);
-      if(this.user.isAdmin == null || this.user.isAdmin == undefined){
-        this.user.isAdmin = false;
-      }
+
+      if (userNew.value != null && userNew.userNew != undefined) {
+        this.user = userNew;
+      } 
+
 
       router.beforeEach((to, from, next) => {
         // Ejecuta el código que deseas antes de que se redirija a cualquier ruta
