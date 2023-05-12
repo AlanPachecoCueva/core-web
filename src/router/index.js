@@ -19,7 +19,11 @@ import newUser from '../views/admins/manageUsers/newUser.vue'
 import listProjects from '../views/admins/manageProjects/listProjects.vue'
 import editProject from '../views/admins/manageProjects/editProject.vue'
 import newProject from '../views/admins/manageProjects/newProject.vue'
-
+//Tasks
+import listTasks from '../views/admins/manageTasks/listTasks.vue'
+import editTask from '../views/admins/manageTasks/editTask.vue'
+import newTask from '../views/admins/manageTasks/newTask.vue'
+import listTasksOfAProject from '../views/admins/manageTasks/listTasksOfAProject.vue'
 //Auth para estado del usuario
 import { authFirebase } from '../config/firebase/firebaseConfig.js';
 import { useUserStore } from '../stores/userStore.js';
@@ -77,8 +81,28 @@ const router = createRouter({
       path: '/admin/project/new',
       name: 'newProjectAdmin',
       component: newProject,
+    },,
+    {
+      path: '/admin/task/',
+      name: 'listTasks',
+      component: listTasks
     },
-
+    {
+      path: '/admin/task/:id',
+      name: 'listTasksOfAProject',
+      component: listTasksOfAProject,
+    },
+    {
+      path: '/admin/task/edit/:id',
+      name: 'editTask',
+      component: editTask,
+      props: true
+    },
+    {
+      path: '/admin/task/new',
+      name: 'newTaskAdmin',
+      component: newTask,
+    },
     //Para usuarios normales------------------------
     {
       path: '/addNewProject',

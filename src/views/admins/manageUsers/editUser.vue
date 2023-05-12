@@ -1,143 +1,153 @@
 <template>
-    <v-card text="Actual data">
-        <div v-if="loading">Loading...</div>
-        <v-table v-if="!loading">
-            <thead>
-                <tr>
-                    <td>
-                    <th class="text-left">Name</th>
-                    </td>
-                    <td>
-                    <th class="text-left">Surname</th>
-                    </td>
-                    <td>
-                    <th class="text-left">Email</th>
-                    </td>
-                    <td>
-                    <th class="text-left">City</th>
-                    </td>
-                    <td>
-                    <th class="text-left">Birthdate</th>
-                    </td>
-                    <td>
+    <div class="visibleArea">
 
-                    </td>
-                    <td>
 
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ lastUser.name }}</td>
-                    <td>{{ lastUser.surname }}</td>
-                    <td>{{ lastUser.email }}</td>
-                    <td>{{ lastUser.city }}</td>
-                    <td>{{ lastUser.birthdate }}</td>
-                </tr>
-            </tbody>
-        </v-table>
-    </v-card>
+        <v-card class="cardList">
+            <div class="cardHeader">
+                <h2>Actual data</h2>
+            </div>
+            <div v-if="loading">Loading...</div>
+            <v-table v-if="!loading" class="tableList">
+                <thead>
+                    <tr>
+                        <td>
+                        <th class="text-left">Name</th>
+                        </td>
+                        <td>
+                        <th class="text-left">Surname</th>
+                        </td>
+                        <td>
+                        <th class="text-left">Email</th>
+                        </td>
+                        <td>
+                        <th class="text-left">City</th>
+                        </td>
+                        <td>
+                        <th class="text-left">Birthdate</th>
+                        </td>
+                        <td>
 
-    <div class="container">
-        <v-form v-model="valid" class="form">
-            <h1>Edit User</h1>
-            <v-container class="formContainer">
-                <div class="rowEdit">
-                    <div class="colInputs">
-                        <div class="inputContainer">
-                            <v-card-subtitle>Name</v-card-subtitle>
-                            <el-input v-model="user.name" @input="validate('name')" placeholder="Your name" required />
-                        </div>
-                        <p class="errorMessage" v-if="!validations.name.state">{{ validations.name.error }}</p>
-                    </div>
+                        </td>
+                        <td>
 
-                    <div class="colInputs">
-                        <div class="inputContainer">
-                            <v-card-subtitle>Surname</v-card-subtitle>
-                            <el-input v-model="user.surname" @input="validate('surname')" placeholder="Your surname"
-                                required />
-                        </div>
-                        <p class="errorMessage" v-if="!validations.surname.state">{{ validations.surname.error }}</p>
-                    </div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ lastUser.name }}</td>
+                        <td>{{ lastUser.surname }}</td>
+                        <td>{{ lastUser.email }}</td>
+                        <td>{{ lastUser.city }}</td>
+                        <td>{{ lastUser.birthdate }}</td>
+                    </tr>
+                </tbody>
+            </v-table>
+        </v-card>
+
+        <div class="container">
+            <v-form v-model="valid" class="form">
+                <div class="cardHeader">
+                    <h1>Edit User</h1>
                 </div>
-                <div class="rowEdit">
-                    <!-- <div > -->
-                    <div class="colInputs">
-                        <div class="inputContainer">
-                            <v-card-subtitle>Email</v-card-subtitle>
-                            <el-input v-model="user.email" @input="validate('email')" placeholder="Your email" required />
-                        </div>
-                        <p class="errorMessage" v-if="!validations.email.state">{{ validations.email.error }}</p>
-                    </div>
-                    <div class="colInputs">
-                        <div class="inputContainer">
-                            <v-card-subtitle>City</v-card-subtitle>
-                            <el-input v-model="user.city" @input="validate('city')" placeholder="Your city" required />
-                        </div>
-                        <p class="errorMessage" v-if="!validations.city.state">{{ validations.city.error }}</p>
-                    </div>
-                    <!-- </div> -->
-
-                </div>
-                <div class="rowEdit">
-                    <!-- <div > -->
-                    <div class="colInputs">
-                        <div class="inputContainer ">
-                            <v-card-subtitle>Password</v-card-subtitle>
-                            <div class="passwordField">
-                                <el-input @input="validate('password')" class="passInput" v-model="user.password"
-                                    :type="showPassword ? 'text' : 'password'" placeholder="Your password"></el-input>
-                                <el-button class="passBtn" @click="togglePasswordVisibility">
-                                    <v-icon v-if="!showPassword">mdi-eye-outline </v-icon>
-                                    <v-icon v-if="showPassword">mdi-eye-off-outline </v-icon>
-                                </el-button>
+                <v-container class="formContainer">
+                    <div class="rowEdit">
+                        <div class="colInputs">
+                            <div class="inputContainer">
+                                <v-card-subtitle>Name</v-card-subtitle>
+                                <el-input v-model="user.name" @input="validate('name')" placeholder="Your name" required />
                             </div>
+                            <p class="errorMessage" v-if="!validations.name.state">{{ validations.name.error }}</p>
                         </div>
-                        <p class="errorMessage" v-if="!validations.password.state">{{ validations.password.error }}</p>
 
-                    </div>
-                    <div class="colInputs">
-                        <div class="inputContainer ">
-                            <v-card-subtitle>Confirm your password</v-card-subtitle>
-                            <div class="passwordField">
-                                <el-input @input="validate('confirmPassword')" class="passInput"
-                                    v-model="verifyPassword.password" :type="showPassword2 ? 'text' : 'password'"
-                                    placeholder="Confirm your password"></el-input>
-                                <el-button class="passBtn" @click="togglePasswordVisibilityVerify">
-                                    <v-icon v-if="!showPassword2">mdi-eye-outline </v-icon>
-                                    <v-icon v-if="showPassword2">mdi-eye-off-outline </v-icon>
-                                </el-button>
+                        <div class="colInputs">
+                            <div class="inputContainer">
+                                <v-card-subtitle>Surname</v-card-subtitle>
+                                <el-input v-model="user.surname" @input="validate('surname')" placeholder="Your surname"
+                                    required />
                             </div>
+                            <p class="errorMessage" v-if="!validations.surname.state">{{ validations.surname.error }}</p>
                         </div>
-                        <p class="errorMessage" v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
                     </div>
-                    <!-- </div> -->
-
-                </div>
-
-
-
-                <div class="rowEdit">
-                    <div class="colInputs">
-                        <div class="inputContainer">
-                            <v-card-subtitle>Birthdate</v-card-subtitle>
-                            <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
-                            <el-date-picker v-model="user.birthdate" @input="validate('birthdate')"
-                                @change="validate('birthdate')" format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
-                                placeholder="Pick your birthdate"></el-date-picker>
+                    <div class="rowEdit">
+                        <!-- <div > -->
+                        <div class="colInputs">
+                            <div class="inputContainer">
+                                <v-card-subtitle>Email</v-card-subtitle>
+                                <el-input v-model="user.email" @input="validate('email')" placeholder="Your email"
+                                    required />
+                            </div>
+                            <p class="errorMessage" v-if="!validations.email.state">{{ validations.email.error }}</p>
                         </div>
-                        <p class="errorMessage" v-if="!validations.birthdate.state">{{ validations.birthdate.error }}</p>
+                        <div class="colInputs">
+                            <div class="inputContainer">
+                                <v-card-subtitle>City</v-card-subtitle>
+                                <el-input v-model="user.city" @input="validate('city')" placeholder="Your city" required />
+                            </div>
+                            <p class="errorMessage" v-if="!validations.city.state">{{ validations.city.error }}</p>
+                        </div>
+                        <!-- </div> -->
+
+                    </div>
+                    <div class="rowEdit">
+                        <!-- <div > -->
+                        <div class="colInputs">
+                            <div class="inputContainer ">
+                                <v-card-subtitle>Password</v-card-subtitle>
+                                <div class="passwordField">
+                                    <el-input @input="validate('password')" class="passInput" v-model="user.password"
+                                        :type="showPassword ? 'text' : 'password'" placeholder="Your password"></el-input>
+                                    <el-button class="passBtn" @click="togglePasswordVisibility">
+                                        <v-icon v-if="!showPassword">mdi-eye-outline </v-icon>
+                                        <v-icon v-if="showPassword">mdi-eye-off-outline </v-icon>
+                                    </el-button>
+                                </div>
+                            </div>
+                            <p class="errorMessage" v-if="!validations.password.state">{{ validations.password.error }}</p>
+
+                        </div>
+                        <div class="colInputs">
+                            <div class="inputContainer ">
+                                <v-card-subtitle>Confirm your password</v-card-subtitle>
+                                <div class="passwordField">
+                                    <el-input @input="validate('confirmPassword')" class="passInput"
+                                        v-model="verifyPassword.password" :type="showPassword2 ? 'text' : 'password'"
+                                        placeholder="Confirm your password"></el-input>
+                                    <el-button class="passBtn" @click="togglePasswordVisibilityVerify">
+                                        <v-icon v-if="!showPassword2">mdi-eye-outline </v-icon>
+                                        <v-icon v-if="showPassword2">mdi-eye-off-outline </v-icon>
+                                    </el-button>
+                                </div>
+                            </div>
+                            <p class="errorMessage" v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
+                        </div>
+                        <!-- </div> -->
+
                     </div>
 
-                </div>
-                <v-btn @click="editUser()">Editar</v-btn>
-            </v-container>
-        </v-form>
+
+
+                    <div class="rowEdit">
+                        <div class="colInputs">
+                            <div class="inputContainer">
+                                <v-card-subtitle>Birthdate</v-card-subtitle>
+                                <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
+                                <el-date-picker v-model="user.birthdate" @input="validate('birthdate')"
+                                    @change="validate('birthdate')" format="DD/MM/YYYY" value-format="DD/MM/YYYY"
+                                    type="date" placeholder="Pick your birthdate"></el-date-picker>
+                            </div>
+                            <p class="errorMessage" v-if="!validations.birthdate.state">{{ validations.birthdate.error }}
+                            </p>
+                        </div>
+
+                    </div>
+                    <v-btn @click="editUser()">Editar</v-btn>
+                </v-container>
+            </v-form>
+
+        </div>
 
     </div>
-
-
     <!-- <h1>edit: {{ user.surname }}</h1> -->
 </template>
 
@@ -150,6 +160,8 @@
     display: flex;
     flex-direction: column !important;
     align-items: center;
+
+    background-color: rgba(85, 85, 85, 0.865);
 }
 
 .rowEdit {
@@ -198,7 +210,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
+    
 }
 
 .form {

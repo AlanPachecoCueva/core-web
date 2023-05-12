@@ -1,82 +1,85 @@
 <template>
     <div class="containerAddProject">
         <v-card class="mx-auto cardAddProject">
-            <el-row class="rows rowTitle">
-                <v-card-title>Add New Project</v-card-title>
-            </el-row>
-
-            <el-row class="rows">
-                <div class="columnsContainer">
-                    <el-col class="cols" :span="30">
-                        <div class="inputContainer">
-                            <v-card-subtitle>Project Name</v-card-subtitle>
-                            <el-input v-model="project.name" @input="validate('projectName')" placeholder="Project name"
-                                required />
-                        </div>
-                        <p v-if="!validations.name.state">{{ validations.name.error }}</p>
-
-                    </el-col>
-                    <el-col class="cols" :span="30">
-
-                        <div class="inputContainer">
-                            <v-card-subtitle>Team Name</v-card-subtitle>
-                            <el-input v-model="project.teamName" @input="validate('teamName')" placeholder="Team name"
-                                required />
-                        </div>
-                        <p v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
-                    </el-col>
-
-                </div>
-            </el-row>
-
-            <el-row class="rows">
-                <div class="columnsContainer">
-                    <el-col class="cols" :span="30">
-
-                        <div class="inputContainer">
-                            <v-card-subtitle>Project Description</v-card-subtitle>
-                            <el-input v-model="project.description" @input="validate('description')"
-                                placeholder="Project description" required />
-                        </div>
-                        <p v-if="!validations.description.state">{{ validations.description.error }}</p>
-
-
-
-                    </el-col>
-                    <el-col class="cols" :span="30">
-
-                        <div class="inputContainer">
-                            <v-card-subtitle>Members Of Project</v-card-subtitle>
-                            <!-- <el-input v-model="project.teamMembers" placeholder="Select development members" required /> -->
-                            <el-select v-model="project.teamMembers" multiple>
-                                <el-option v-for="user in users" :key="user.uid" :label="`${user.name} ${user.surname}`"
-                                    :value="user.uid" />
-                            </el-select>
-                        </div>
-
-                    </el-col>
-
-                </div>
-            </el-row>
-
-            <el-row class="rows">
-                <el-col class="cols" :span="30">
-                    <div class="inputContainer inputDate">
-                        <v-card-subtitle>Estimated End Date</v-card-subtitle>
-                        <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
-                        <el-date-picker v-model="project.estimatedEndDate" @change="validate('estimatedEndDate')"
-                            format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
-                            placeholder="Stimated conclusion date"></el-date-picker>
-                    </div>
-                    <p v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
-
-                </el-col>
-            </el-row>
-
-            <div class="btnContainer">
-                <el-button type="primary" class="btnNewProject" @click="createProject()">Crear proyecto</el-button>
+            <div class="cardHeader">
+                <v-card-title>New Project</v-card-title>
             </div>
+            <!-- <div class="formContainer"> -->
+                <el-row class="rows">
+                    <div class="columnsContainer">
+                        <el-col class="cols" :span="30">
+                            <div class="inputContainer">
+                                <v-card-subtitle>Project Name</v-card-subtitle>
+                                <el-input v-model="project.name" @input="validate('projectName')" placeholder="Project name"
+                                    required />
+                            </div>
+                            <p v-if="!validations.name.state">{{ validations.name.error }}</p>
 
+                        </el-col>
+                        <el-col class="cols" :span="30">
+
+                            <div class="inputContainer">
+                                <v-card-subtitle>Team Name</v-card-subtitle>
+                                <el-input v-model="project.teamName" @input="validate('teamName')" placeholder="Team name"
+                                    required />
+                            </div>
+                            <p v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
+                        </el-col>
+
+                    </div>
+                </el-row>
+
+                <el-row class="rows">
+                    <div class="columnsContainer">
+                        <el-col class="cols" :span="30">
+
+                            <div class="inputContainer">
+                                <v-card-subtitle>Project Description</v-card-subtitle>
+                                <el-input v-model="project.description" @input="validate('description')"
+                                    placeholder="Project description" required />
+                            </div>
+                            <p v-if="!validations.description.state">{{ validations.description.error }}</p>
+
+
+
+                        </el-col>
+                        <el-col class="cols" :span="30">
+
+                            <div class="inputContainer">
+                                <v-card-subtitle>Members Of Project</v-card-subtitle>
+                                <!-- <el-input v-model="project.teamMembers" placeholder="Select development members" required /> -->
+                                <el-select v-model="project.teamMembers" multiple>
+                                    <el-option v-for="user in users" :key="user.uid" :label="`${user.name} ${user.surname}`"
+                                        :value="user.uid" />
+                                </el-select>
+                            </div>
+
+                        </el-col>
+
+                    </div>
+                </el-row>
+
+                <el-row class="rows">
+                    <el-col class="cols" :span="30">
+                        <div class="inputContainer inputDate">
+                            <v-card-subtitle>Estimated End Date</v-card-subtitle>
+                            <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
+                            <el-date-picker v-model="project.estimatedEndDate" @change="validate('estimatedEndDate')"
+                                format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
+                                placeholder="Stimated conclusion date"></el-date-picker>
+                        </div>
+                        <p v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
+
+                    </el-col>
+                </el-row>
+
+                <div class="cardHeader">
+                    <div class="containerBtn">
+                        <i @click="createProject()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                    </div>
+                    <!-- <el-button type="primary" :icon="Delete" @click="createUser()">Crear Usuario</el-button> -->
+                </div>
+            <!-- </div> -->
         </v-card>
     </div>
 </template>
@@ -135,7 +138,7 @@ export default {
         async createProject() {
 
             this.project.author = this.user.id;
-            
+
             let res = await createAProject(this.project);
             if (res != false) {
                 await this.$swal({
@@ -145,13 +148,13 @@ export default {
                     confirmButtonText: "OK",
                 });
                 this.$router.push('/admin/project/');
-            }else{
+            } else {
                 await this.$swal({
-                        title: "¡Error creating project!",
-                        icon: "error",
-                        showCancelButton: false,
-                        confirmButtonText: "OK",
-                    });
+                    title: "¡Error creating project!",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
             }
         },
         validate(type) {
@@ -221,7 +224,10 @@ export default {
 
 .containerAddProject {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* display: grid; */
 }
 
@@ -231,7 +237,7 @@ export default {
     max-width: none !important;
 
 
-    background-color: rgb(219, 224, 224) !important;
+    background-color: rgba(85, 85, 85, 0.865) !important;
 
     text-align: center;
 }
@@ -274,9 +280,9 @@ export default {
 }
 
 .formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    height: 100%;
+    
 }
 
 .passwordField {

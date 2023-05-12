@@ -165,10 +165,14 @@ export default {
         },
         addNewObjective() {
             if (this.objective.description != "" && this.objective.members.length > 0) {
-                
+
                 this.task.objectives.push(this.objective);
                 //Borramos el objetivo
-                this.objective = {};
+                this.objective = {
+                    description: "",
+                    members: [],
+                    state: "0%"
+                };
                 this.showTable = true;
             }
 
@@ -211,7 +215,7 @@ export default {
             this.task.projectId = this.$route.params.id;
             const res = await createATask(this.task);
 
-            
+
             if (res != "Error") {
                 await this.$swal({
                     title: "¡Task created successfully!",

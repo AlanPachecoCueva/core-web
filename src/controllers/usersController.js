@@ -23,7 +23,7 @@ const logIn = async (userData) => {
             //Guardar el usuario en el store
             const userStore = useUserStore();
             userStore.setUser(res);
-            const isLogued = userStore.setIsLogued(true);
+            userStore.setIsLogued(true);
             return res;
         } else {
             console.error(error);
@@ -44,7 +44,10 @@ const logOut = async () => {
             //El cierre fue exitoso
             const userStore = useUserStore();
 
-            const isLogued = userStore.setIsLogued(false);
+            userStore.setIsLogued(false);
+
+            const emptyUser ={uid: "", name: "", surname: "", email: "", city: "", birthdate: "", isAdmin: ""};
+            userStore.setUser(emptyUser);
         } else {
             console.error("Unable to log out.");
             return false;

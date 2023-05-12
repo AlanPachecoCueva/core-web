@@ -1,4 +1,4 @@
-import { createTask, getTasksOfProject, getTask  } from "../models/tasksModel.js";
+import { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById  } from "../models/tasksModel.js";
 
 
 const createATask = async (taskData) => {
@@ -34,4 +34,33 @@ const getTaskById = async (id) => {
     return task;
 }
 
-export { createATask, getTasksOfAProject, getTaskById };
+const getTasks = async () => {
+    try {
+        const tasks = await getAllTasks();
+
+        if (!tasks) {
+            console.error("Error getting tasks");
+            return false;
+        }
+
+        return tasks;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+
+}
+
+const deleteTask = async (id) => {
+    try {
+        const res = await deleteTaskById(id);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+
+
+}
+
+export { createATask, getTasksOfAProject, getTaskById, getTasks, deleteTask };

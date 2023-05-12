@@ -4,7 +4,7 @@
     <div class="visibleArea">
         <v-card class="cardList">
             <div class="cardHeader">
-                <h2>List of projects</h2>
+                <h2>List of all tasks</h2>
             </div>
             <div class="headerOptions">
                 <div class="headerOptionsLeft">
@@ -16,7 +16,7 @@
                 <div class="headerOptionsRight">
                     <div class="containerBtn">
                         <p>New</p>
-                        <i @click="goToNewProject()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                        <i @click="goToNewTask()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
                         
                     </div>
 
@@ -35,12 +35,6 @@
                         <th class="text-left">Name</th>
                         </td>
                         <td>
-                        <th class="text-left">Team Name</th>
-                        </td>
-                        <td>
-                        <th class="text-left">State</th>
-                        </td>
-                        <td>
                         <th class="text-left">Description</th>
                         </td>
                         <td>
@@ -49,21 +43,26 @@
                         <td>
                         <th class="text-left">Estimated End Date</th>
                         </td>
+                        <td>
+                        <th class="text-left">State</th>
+                        </td>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(project, index) in projectsToShow" :key="index">
-                        <td>{{ project.author }}</td>
-                        <td>{{ project.name }}</td>
-                        <td>{{ project.teamName }}</td>
-                        <td>{{ project.state }}</td>
-                        <td>{{ project.description }}</td>
-                        <td>{{ project.startDate }}</td>
-                        <td>{{ project.estimatedEndDate }}</td>
-                        <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditProject(project.id)"
+                    <tr v-for="(task, index) in tasksToShow" :key="index">
+                        <td>{{ task.author }}</td>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>{{ task.startDate }}</td>
+                        <td>{{ task.estimatedEndDate }}</td>
+                        <td>{{ task.state }}</td>
+                        <!-- Objetivos y miembros se muestran en otra ventana -->
+                        <td><v-btn density="compact" icon="mdi-delete-forever" @click="viewAllTasksOfAProject(task.projectId)"
+                                color="secondary" class="deleteButton"></v-btn></td>
+                        <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditTask(task.id)"
                                 color="primary"></v-btn></td>
-                        <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleProject(project.id)"
+                        <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleTask(task.id)"
                                 color="secondary" class="deleteButton"></v-btn></td>
                     </tr>
                 </tbody>
@@ -76,67 +75,70 @@
 
 <script>
 //Función que retorna los usuarios registrados
-import { getProjects, deleteProject } from '../../../controllers/projectsController.js';
+import { getTasks } from '../../../controllers/tasksController.js';
 import { getUsers } from '../../../controllers/usersController.js';
 
 export default {
     data() {
         return {
             users: [],
-            projects: [],
-            projectsToShow: [],
+            tasks: [],
+            tasksToShow: [],
             loading: true,
             buscar: "",
         };
     },
     watch: {
         buscar(newValue, oldValue) {
-            const newProjects = this.projects.filter((project) => {
-                if (project.name.toLowerCase().includes(newValue.toLowerCase())) {
-                    return project;
+            const newTasks = this.tasks.filter((task) => {
+                if (task.name.toLowerCase().includes(newValue.toLowerCase())) {
+                    return task;
                 }
             });
-            this.projectsToShow = newProjects;
+            this.tasksToShow = newTasks;
         }
     },
     methods: {
-        goToNewProject() {
-            this.$router.push('/admin/project/new');
+        viewAllTasksOfAProject(id){
+            this.$router.push({ name: "listTasksOfAProject", params: { id } });
         },
-        goToEditProject(id) {
-            this.$router.push({ name: "editProject", params: { id } });
+        goToNewTask() {
+            this.$router.push('/admin/task/new');
         },
-        deleteProjectOfList(id) {
-            this.projects = this.projects.filter((project) => {
-                if (project.id != id) {
-                    return project;
+        goToEditTask(id) {
+            this.$router.push({ name: "editTask", params: { id } });
+        },
+        deleteTaskOfList(id) {
+            this.tasks = this.tasks.filter((task) => {
+                if (task.id != id) {
+                    return task;
                 }
             });
 
-            this.projectsToShow = Object.assign({}, this.projects);
+            this.tasksToShow = Object.assign({}, this.tasks);
         },
-        async deteleProject(id) {
+        async deteleTask(id) {
             const result = await this.$swal({
-                title: '¿Are you sure to delete this project?',
+                title: '¿Are you sure to delete this task?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
                 cancelButtonText: "Not",
             });
             if (result.isConfirmed) {
-                this.deleteProjectOfList(id)
-                const res = await deleteProject(id);
+                this.deleteTaskOfList(id)
+                const res = await deleteTask(id);
 
                 if (res) {
                     await this.$swal({
-                        title: "¡Project deleted successfully!",
+                        title: "Task deleted successfully!",
                         icon: "success",
                         showCancelButton: false,
                         confirmButtonText: "OK",
                     });
                 } else {
                     await this.$swal({
-                        title: "¡Project not deleted!",
+                        title: "Task not deleted!",
                         icon: "error",
                         showCancelButton: false,
                         confirmButtonText: "OK",
@@ -149,17 +151,17 @@ export default {
         //Recuperamos los usuarios
         this.users = await getUsers();
         //Usamos el controlador para recuperar los usuarios
-        this.projects = await getProjects();
+        this.tasks = await getTasks();
 
 
-        for (let i = 0; i < this.projects.length; i++) {
+        for (let i = 0; i < this.tasks.length; i++) {
             this.users.filter((user) => {
-                if (user.uid == this.projects[i].author) {
-                    this.projects[i].author = user.name + " " + user.surname;
+                if (user.uid == this.tasks[i].author) {
+                    this.tasks[i].author = user.name + " " + user.surname;
                 }
             });
         }
-        this.projectsToShow = Object.assign({}, this.projects);
+        this.tasksToShow = Object.assign({}, this.tasks);
         this.loading = false;
 
     }

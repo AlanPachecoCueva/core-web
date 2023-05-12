@@ -74,14 +74,8 @@ export default {
           Swal.showLoading();
         },
         didOpen: () => {
-          console.log("onBeforeOpen");
-
           // Aquí va tu código para cargar los datos
           setTimeout(() => {
-
-            console.log("setTimeout");
-            //una vez se cargaron todos los componentes se establece el isLoading en false
-
             Swal.close();
           }, 1500);
         }
@@ -94,20 +88,19 @@ export default {
   },
   mounted() {
     try {
-
-      const store = useUserStore();
-      //const storeUser = store.getUser;
-
-      const userNew = computed(() => {
-        return store.getUser;
-      });
-
-      if (userNew.value != null && userNew.userNew != undefined) {
-        this.user = userNew;
-      } 
-
-
       router.beforeEach((to, from, next) => {
+        const store = useUserStore();
+        //const storeUser = store.getUser;
+
+        const userNew = computed(() => {
+          return store.getUser;
+        });
+
+        if (userNew.value != null && userNew.value != undefined) {
+          console.log("userNew: ", userNew);
+          this.user = userNew;
+        }
+        console.log("this.user: ", this.user);
         // Ejecuta el código que deseas antes de que se redirija a cualquier ruta
         //const currentUser = authFirebase.currentUser;
 
@@ -141,6 +134,20 @@ export default {
     } catch (error) {
       console.log(error);
     }
+  },
+  updated() {
+    const store = useUserStore();
+    //const storeUser = store.getUser;
+
+    const userNew = computed(() => {
+      return store.getUser;
+    });
+
+    if (userNew.value != null && userNew.value != undefined) {
+      console.log("userNew: ", userNew);
+      this.user = userNew;
+    }
+    console.log("this.user: ", this.user);
   }
 };
 

@@ -1,77 +1,80 @@
 <template>
     <div class="containerRegister">
         <v-card class="mx-auto cardRegister" max-width="500">
-            <v-card-title>New User</v-card-title>
-            <!-- <v-img class="align-end text-white" height="200"
-                src="https://res.cloudinary.com/dbftfrguy/image/upload/v1680650258/Premium_Vector___Cute_offline_twitch_banner_igj12t.jpg"
-                cover>
-            </v-img> -->
-
-            <div class="inputContainer">
-                <v-card-subtitle>Name</v-card-subtitle>
-                <el-input v-model="user.name" @input="validate('name')" placeholder="Your name" required />
+            <div class="cardHeader">
+                <v-card-title>New User</v-card-title>
             </div>
-            <p v-if="!validations.name.state">{{ validations.name.error }}</p>
+            <div class="formContainer">
+                <div class="inputContainer">
+                    <v-card-subtitle>Name</v-card-subtitle>
+                    <el-input v-model="user.name" @input="validate('name')" placeholder="Your name" required />
+                </div>
+                <p v-if="!validations.name.state">{{ validations.name.error }}</p>
 
-            <div class="inputContainer">
-                <v-card-subtitle>Surname</v-card-subtitle>
-                <el-input v-model="user.surname" @input="validate('surname')" placeholder="Your surname" required />
-            </div>
-            <p v-if="!validations.surname.state">{{ validations.surname.error }}</p>
+                <div class="inputContainer">
+                    <v-card-subtitle>Surname</v-card-subtitle>
+                    <el-input v-model="user.surname" @input="validate('surname')" placeholder="Your surname" required />
+                </div>
+                <p v-if="!validations.surname.state">{{ validations.surname.error }}</p>
 
-            <div class="inputContainer">
-                <v-card-subtitle>Email</v-card-subtitle>
-                <el-input v-model="user.email" @input="validate('email')" placeholder="Your email" required />
-            </div>
-            <p v-if="!validations.email.state">{{ validations.email.error }}</p>
+                <div class="inputContainer">
+                    <v-card-subtitle>Email</v-card-subtitle>
+                    <el-input v-model="user.email" @input="validate('email')" placeholder="Your email" required />
+                </div>
+                <p v-if="!validations.email.state">{{ validations.email.error }}</p>
 
-            <div class="inputContainer ">
-                <v-card-subtitle>Password</v-card-subtitle>
-                <div class="passwordField">
-                    <el-input @input="validate('password')" class="passInput" v-model="user.password"
-                        :type="showPassword ? 'text' : 'password'" placeholder="Your password"></el-input>
-                    <el-button class="passBtn" @click="togglePasswordVisibility">
-                        <v-icon v-if="!showPassword">mdi-eye-outline </v-icon>
-                        <v-icon v-if="showPassword">mdi-eye-off-outline </v-icon>
-                    </el-button>
+                <div class="inputContainer ">
+                    <v-card-subtitle>Password</v-card-subtitle>
+                    <div class="passwordField">
+                        <el-input @input="validate('password')" class="passInput" v-model="user.password"
+                            :type="showPassword ? 'text' : 'password'" placeholder="Your password"></el-input>
+                        <el-button class="passBtn" @click="togglePasswordVisibility">
+                            <v-icon v-if="!showPassword">mdi-eye-outline </v-icon>
+                            <v-icon v-if="showPassword">mdi-eye-off-outline </v-icon>
+                        </el-button>
+                    </div>
+                </div>
+                <p v-if="!validations.password.state">{{ validations.password.error }}</p>
+
+                <div class="inputContainer ">
+                    <v-card-subtitle>Confirm your password</v-card-subtitle>
+                    <div class="passwordField">
+                        <el-input @input="validate('confirmPassword')" class="passInput" v-model="verifyPassword.password"
+                            :type="showPassword2 ? 'text' : 'password'" placeholder="Confirm your password"></el-input>
+                        <el-button class="passBtn" @click="togglePasswordVisibilityVerify">
+                            <v-icon v-if="!showPassword2">mdi-eye-outline </v-icon>
+                            <v-icon v-if="showPassword2">mdi-eye-off-outline </v-icon>
+                        </el-button>
+                    </div>
+                </div>
+                <p v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
+
+                <div class="inputContainer">
+                    <v-card-subtitle>City</v-card-subtitle>
+                    <el-input v-model="user.city" @input="validate('city')" placeholder="Your city" required />
+                </div>
+                <p v-if="!validations.city.state">{{ validations.city.error }}</p>
+
+                <div class="inputContainer">
+                    <v-card-subtitle>Birthdate</v-card-subtitle>
+                    <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
+                    <el-date-picker v-model="user.birthdate" @input="validate('birthdate')" @change="validate('birthdate')"
+                        format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
+                        placeholder="Pick your birthdate"></el-date-picker>
+                </div>
+                <p v-if="!validations.birthdate.state">{{ validations.birthdate.error }}</p>
+
+                <div class="inputContainer">
+                    <v-card-subtitle>Administrador</v-card-subtitle>
+                    <el-switch v-model="user.isAdmin" active-value="true" inactive-value="false"></el-switch>
+                </div>
+                <div class="cardHeader">
+                    <div class="containerBtn">
+                        <i @click="createUser()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                    </div>
+                    <!-- <el-button type="primary" :icon="Delete" @click="createUser()">Crear Usuario</el-button> -->
                 </div>
             </div>
-            <p v-if="!validations.password.state">{{ validations.password.error }}</p>
-
-            <div class="inputContainer ">
-                <v-card-subtitle>Confirm your password</v-card-subtitle>
-                <div class="passwordField">
-                    <el-input @input="validate('confirmPassword')" class="passInput" v-model="verifyPassword.password"
-                        :type="showPassword2 ? 'text' : 'password'" placeholder="Confirm your password"></el-input>
-                    <el-button class="passBtn" @click="togglePasswordVisibilityVerify">
-                        <v-icon v-if="!showPassword2">mdi-eye-outline </v-icon>
-                        <v-icon v-if="showPassword2">mdi-eye-off-outline </v-icon>
-                    </el-button>
-                </div>
-            </div>
-            <p v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
-
-            <div class="inputContainer">
-                <v-card-subtitle>City</v-card-subtitle>
-                <el-input v-model="user.city" @input="validate('city')" placeholder="Your city" required />
-            </div>
-            <p v-if="!validations.city.state">{{ validations.city.error }}</p>
-
-            <div class="inputContainer">
-                <v-card-subtitle>Birthdate</v-card-subtitle>
-                <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
-                <el-date-picker v-model="user.birthdate" @input="validate('birthdate')" @change="validate('birthdate')"
-                    format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
-                    placeholder="Pick your birthdate"></el-date-picker>
-            </div>
-            <p v-if="!validations.birthdate.state">{{ validations.birthdate.error }}</p>
-
-            <div class="inputContainer">
-                <v-card-subtitle>Administrador</v-card-subtitle>
-                <el-switch v-model="user.isAdmin" active-value="true" inactive-value="false"></el-switch>
-            </div>
-
-            <el-button type="primary" :icon="Delete" @click="createUser()">Crear Usuario</el-button>
         </v-card>
     </div>
 </template>
@@ -130,7 +133,7 @@ export default {
             this.showPassword2 = !this.showPassword2;
         },
         async createUser() {
-            this.user.isAdmin = this.user.isAdmin === 'true'? true : false; 
+            this.user.isAdmin = this.user.isAdmin === 'true' ? true : false;
 
             //Validaciones
             this.isFormatValid = Object.values(this.validations).every(function (elemento) {
@@ -178,7 +181,7 @@ export default {
                         showCancelButton: false,
                         confirmButtonText: "OK",
                     });
-                    
+
                     return;
                 }
 
@@ -304,6 +307,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(85, 85, 85, 0.865);
 }
 
 .row {

@@ -36,7 +36,7 @@
                             <p>Tasks</p>
                         </div>
                         <div class="galleryDivision">
-                            <i @click="goHome()" class="mdi mdi-text-box-edit mdi-36px iconBtn"></i>
+                            <i @click="goManageTasks()" class="mdi mdi-text-box-edit mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -58,6 +58,9 @@ export default {
         },
         goManageProjects(){
             this.$router.push('/admin/project/');
+        },
+        goManageTasks(){
+            this.$router.push('/admin/task/');
         }
     }
 }

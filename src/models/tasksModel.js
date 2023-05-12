@@ -49,5 +49,36 @@ async function createTask(taskData) {
       return "Error fetching task";
     }
   };
+
+  const getAllTasks = async () => {
+    try {
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/`);
+      if (!response.ok) {
+        throw new Error('Error fetching tasks');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  async function deleteTaskById(id) {
+    try {
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/delete/${id}`, {
+        method: 'DELETE'
+      });
   
-  export { createTask, getTasksOfProject, getTask };
+      if (!response.ok) {
+        throw new Error('Error deleting task.');
+      }
+  
+      const data = await response.text();
+      return data;
+  
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  export { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById };
