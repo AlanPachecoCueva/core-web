@@ -157,7 +157,7 @@ import { validateProjectName, validateTeamName, validateDescription, validateEnd
 
 import { getUsersToCreateProject } from "../../../controllers/usersController.js";
 
-import { updateProject } from "../../../controllers/projectsController.js";
+import { updateProjectById } from "../../../controllers/projectsController.js";
 
 import { getUsers } from '../../../controllers/usersController.js';
 export default {
@@ -264,7 +264,7 @@ export default {
                 cancelButtonText: "Not",
             });
             if (result.isConfirmed) {
-                const res = await updateProject(this.$route.params.id, this.project);
+                const res = await updateProjectById(this.$route.params.id, this.project);
 
                 if (res) {
                     await this.$swal({
