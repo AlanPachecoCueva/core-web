@@ -63,7 +63,7 @@
                                 <el-input v-model="project.name" @input="validate('projectName')" placeholder="Project name"
                                     required />
                             </div>
-                            <p v-if="!validations.name.state">{{ validations.name.error }}</p>
+                            <p class="errorMessage" v-if="!validations.name.state">{{ validations.name.error }}</p>
                         </div>
 
                         <div class="colInputs">
@@ -72,7 +72,7 @@
                                 <el-input v-model="project.teamName" @input="validate('teamName')" placeholder="Team name"
                                     required />
                             </div>
-                            <p v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
+                            <p class="errorMessage" v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
                         </div>
                     </div>
                     <div class="rowEdit">
@@ -83,7 +83,7 @@
                                 <el-input v-model="project.description" @input="validate('description')"
                                     placeholder="Project description" required />
                             </div>
-                            <p v-if="!validations.description.state">{{ validations.description.error }}</p>
+                            <p class="errorMessage" v-if="!validations.description.state">{{ validations.description.error }}</p>
                         </div>
                         <div class="colInputs">
                             <div class="inputContainer">
@@ -137,7 +137,7 @@
                                     format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
                                     placeholder="Stimated conclusion date"></el-date-picker>
                             </div>
-                            <p v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
+                            <p class="errorMessage" v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
 
                         </div>
                     </div>
@@ -187,23 +187,23 @@ export default {
                 teamName: "",
             }, validations: {
                 teamName: {
-                    state: false,
+                    state: true,
                     error: "",
                 },
                 name: {
-                    state: false,
+                    state: true,
                     error: "",
                 },
                 description: {
-                    state: false,
+                    state: true,
                     error: "",
                 },
                 estimatedEndDate: {
-                    state: false,
+                    state: true,
                     error: "",
                 },
                 teamMembers: {
-                    state: false,
+                    state: true,
                     error: "",
                 },
             }
@@ -242,6 +242,18 @@ export default {
             }
         },
         async editProject() {
+            //Si hay algún error no se deja modificar
+            if (!this.validations.teamName.state || !this.validations.name.state || !this.validations.description.state
+                || !this.validations.estimatedEndDate.state || !this.validations.teamMembers.state) {
+                await this.$swal({
+                    title: 'Please fill in the data according to the suggestions.',
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
+            
             const result = await this.$swal({
                 title: '¿Do you want to edit the project?',
                 icon: 'question',
@@ -325,6 +337,7 @@ export default {
 <style>
 .cardList {
     overflow: unset !important;
+    margin-bottom: 120px;
 }
 
 .visibleArea {
@@ -379,19 +392,15 @@ export default {
     border-radius: 4px;
     box-shadow: 0 0 0 1px #dcdfe6;
     border: none;
-    /* display: flex !important;
-    justify-content: center;
-    background-color: yellow; */
 }
 
 .container {
     width: 100%;
     height: 100%;
-
+ 
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
 }
 
 .form {

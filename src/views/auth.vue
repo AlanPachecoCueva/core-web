@@ -1,6 +1,6 @@
 
 <template>
-    <div class="container">
+    <div class="container" :class="{ 'isRegister': !logIn }">
         <register v-if="!logIn"></register>
         <login v-if="logIn"></login>
         <el-button class="btn" @click="switchButton()">{{ textoBtn }}</el-button>
@@ -11,8 +11,16 @@
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 100% !important;
+    min-height: 50% !important;
+    height: 50% !important;
+    margin: 1% 0% 10% 0%;
+}
 
+.isRegister{
+    display: flex;
+    flex-direction: column;
+    min-height: 75% !important;
+    height: 75% !important;
     margin: 1% 0% 10% 0%;
 }
 

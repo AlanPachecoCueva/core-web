@@ -161,10 +161,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { useUserStore } from "../../../stores/userStore";
 
 export default {
-
-
-
-
     data() {
         return {
             isProjectSelected: false,

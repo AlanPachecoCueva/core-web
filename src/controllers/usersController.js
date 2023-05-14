@@ -26,7 +26,7 @@ const logIn = async (userData) => {
             userStore.setIsLogued(true);
             return res;
         } else {
-            console.error(error);
+            console.error("Unable to log in.");
             return false;
         }
 

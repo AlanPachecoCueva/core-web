@@ -173,6 +173,9 @@ html, body{
     align-items: center;
 }
 
+.errorMessage{
+    color:#ff8c7f;
+}
 /*---------------------ESTILO INPUT PERSONALIZADO----------------------------*/
 
 body{

@@ -1,4 +1,4 @@
-import { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById  } from "../models/tasksModel.js";
+import { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById, updateTask  } from "../models/tasksModel.js";
 
 
 const createATask = async (taskData) => {
@@ -63,4 +63,18 @@ const deleteTask = async (id) => {
 
 }
 
-export { createATask, getTasksOfAProject, getTaskById, getTasks, deleteTask };
+const updateTaskById = async (id, data) => {
+    try {
+        const res = await updateTask(id, data);
+
+        if (!res) {
+            throw new Error("¡Unknow Error!");
+        }
+        return true;
+    }catch(error){
+        return false;
+    }
+    
+}
+
+export { createATask, getTasksOfAProject, getTaskById, getTasks, deleteTask, updateTaskById };

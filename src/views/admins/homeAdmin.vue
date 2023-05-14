@@ -9,7 +9,7 @@
                             <p>Users</p>
                         </div>
                         <div class="galleryDivision">
-                            <i @click="goManageUsers()" class="mdi mdi-account-edit mdi-36px iconBtn"></i>
+                            <i @click="goManageUsers()" class="mdi mdi-account-box mdi-36px iconBtn"></i>
                         </div>
                     </div>
 
@@ -23,7 +23,7 @@
                             <p>Projects</p>
                         </div>
                         <div class="galleryDivision">
-                            <i @click="goManageProjects()" class="mdi mdi-briefcase-edit mdi-36px iconBtn"></i>
+                            <i @click="goManageProjects()" class="mdi mdi-briefcase mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -36,7 +36,7 @@
                             <p>Tasks</p>
                         </div>
                         <div class="galleryDivision">
-                            <i @click="goManageTasks()" class="mdi mdi-text-box-edit mdi-36px iconBtn"></i>
+                            <i @click="goManageTasks()" class="mdi mdi-text-box mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>

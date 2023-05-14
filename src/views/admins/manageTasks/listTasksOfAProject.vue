@@ -58,10 +58,12 @@
                         <td>{{ task.estimatedEndDate }}</td>
                         <td>{{ task.state }}</td>
                         <!-- Objetivos y miembros se muestran en otra ventana -->
-                        <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditTask(task.id)"
-                                color="primary"></v-btn></td>
-                        <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleTask(task.id)"
-                                color="secondary" class="deleteButton"></v-btn></td>
+                        <td>
+                            <i class="mdi  mdi-text-box-edit mdi-36px iconBtn" @click="goToEditTask(task.id)"></i>
+                        </td>
+                        <td>
+                            <i class="mdi mdi-text-box-remove mdi-36px iconBtn" @click="deteleTask(task.id)"></i>
+                        </td>
                     </tr>
                 </tbody>
             </v-table>

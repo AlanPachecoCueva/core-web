@@ -61,10 +61,12 @@
                         <td>{{ project.description }}</td>
                         <td>{{ project.startDate }}</td>
                         <td>{{ project.estimatedEndDate }}</td>
-                        <td><v-btn density="compact" icon="mdi-pencil" @click="goToEditProject(project.id)"
-                                color="primary"></v-btn></td>
-                        <td><v-btn density="compact" icon="mdi-delete-forever" @click="deteleProject(project.id)"
-                                color="secondary" class="deleteButton"></v-btn></td>
+                        <td>
+                            <i class="mdi mdi-briefcase-edit mdi-36px iconBtn" @click="goToEditProject(project.id)"></i>
+                        </td>
+                        <td>
+                            <i class="mdi mdi-briefcase-remove mdi-36px iconBtn" @click="deteleProject(project.id)"></i>
+                        </td>
                     </tr>
                 </tbody>
             </v-table>

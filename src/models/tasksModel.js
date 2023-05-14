@@ -81,4 +81,26 @@ async function createTask(taskData) {
     }
   }
 
-  export { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById };
+  const updateTask = async (id, taskData) => {
+    try {
+      const { name, description, estimatedEndDate, members, objectives, state } = taskData;
+  
+      const response = await fetch(`${RUTA_SERVIDOR}/tasks/update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, name, description, estimatedEndDate, members, objectives, state })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error updating task.');
+      }
+      return response.ok;
+  
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  export { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById, updateTask };

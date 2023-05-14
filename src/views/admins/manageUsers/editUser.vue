@@ -1,7 +1,5 @@
 <template>
     <div class="visibleArea">
-
-
         <v-card class="cardList">
             <div class="cardHeader">
                 <h2>Actual data</h2>
@@ -152,10 +150,6 @@
 </template>
 
 <style>
-.errorMessage {
-    color: #dcdfe6;
-}
-
 .formContainer {
     display: flex;
     flex-direction: column !important;
@@ -174,8 +168,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* height: fit-content; */
-    /* margin-bottom: 10px; */
 }
 
 .colInputs {
@@ -198,9 +190,6 @@
     border-radius: 4px;
     box-shadow: 0 0 0 1px #dcdfe6;
     border: none;
-    /* display: flex !important;
-    justify-content: center;
-    background-color: yellow; */
 }
 
 .container {
@@ -210,7 +199,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
 }
 
 .form {
@@ -253,12 +242,12 @@ export default {
                 state: false,
             },
             validations: {
-                name: { state: false, error: "" },
-                surname: { state: false, error: "" },
-                password: { state: false, error: "" },
-                email: { state: false, error: "" },
-                city: { state: false, error: "" },
-                birthdate: { state: false, error: "" },
+                name: { state: true, error: "" },
+                surname: { state: true, error: "" },
+                password: { state: true, error: "" },
+                email: { state: true, error: "" },
+                city: { state: true, error: "" },
+                birthdate: { state: true, error: "" },
             },
             showPassword: false,
             showPassword2: false,
@@ -284,6 +273,17 @@ export default {
 
         },
         async editUser() {
+            //Si hay algún error no se deja modificar
+            if (!this.validations.name.state || !this.validations.surname.state || !this.validations.password.state
+                || !this.validations.email.state || !this.validations.city.state || !this.validations.birthdate.state) {
+                await this.$swal({
+                    title: 'Please fill in the data according to the suggestions.',
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
             const result = await this.$swal({
                 title: '¿Do you want to edit this user?',
                 icon: 'question',

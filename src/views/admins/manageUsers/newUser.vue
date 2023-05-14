@@ -9,19 +9,19 @@
                     <v-card-subtitle>Name</v-card-subtitle>
                     <el-input v-model="user.name" @input="validate('name')" placeholder="Your name" required />
                 </div>
-                <p v-if="!validations.name.state">{{ validations.name.error }}</p>
+                <p class="errorMessage" v-if="!validations.name.state">{{ validations.name.error }}</p>
 
                 <div class="inputContainer">
                     <v-card-subtitle>Surname</v-card-subtitle>
                     <el-input v-model="user.surname" @input="validate('surname')" placeholder="Your surname" required />
                 </div>
-                <p v-if="!validations.surname.state">{{ validations.surname.error }}</p>
+                <p class="errorMessage" v-if="!validations.surname.state">{{ validations.surname.error }}</p>
 
                 <div class="inputContainer">
                     <v-card-subtitle>Email</v-card-subtitle>
                     <el-input v-model="user.email" @input="validate('email')" placeholder="Your email" required />
                 </div>
-                <p v-if="!validations.email.state">{{ validations.email.error }}</p>
+                <p class="errorMessage" v-if="!validations.email.state">{{ validations.email.error }}</p>
 
                 <div class="inputContainer ">
                     <v-card-subtitle>Password</v-card-subtitle>
@@ -34,7 +34,7 @@
                         </el-button>
                     </div>
                 </div>
-                <p v-if="!validations.password.state">{{ validations.password.error }}</p>
+                <p class="errorMessage" v-if="!validations.password.state">{{ validations.password.error }}</p>
 
                 <div class="inputContainer ">
                     <v-card-subtitle>Confirm your password</v-card-subtitle>
@@ -47,13 +47,13 @@
                         </el-button>
                     </div>
                 </div>
-                <p v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
+                <p class="errorMessage" v-if="!verifyPassword.state">{{ verifyPassword.error }}</p>
 
                 <div class="inputContainer">
                     <v-card-subtitle>City</v-card-subtitle>
                     <el-input v-model="user.city" @input="validate('city')" placeholder="Your city" required />
                 </div>
-                <p v-if="!validations.city.state">{{ validations.city.error }}</p>
+                <p class="errorMessage" v-if="!validations.city.state">{{ validations.city.error }}</p>
 
                 <div class="inputContainer">
                     <v-card-subtitle>Birthdate</v-card-subtitle>
@@ -62,7 +62,7 @@
                         format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
                         placeholder="Pick your birthdate"></el-date-picker>
                 </div>
-                <p v-if="!validations.birthdate.state">{{ validations.birthdate.error }}</p>
+                <p class="errorMessage" v-if="!validations.birthdate.state">{{ validations.birthdate.error }}</p>
 
                 <div class="inputContainer">
                     <v-card-subtitle>Administrador</v-card-subtitle>

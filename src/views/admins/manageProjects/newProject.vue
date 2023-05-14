@@ -13,7 +13,7 @@
                                 <el-input v-model="project.name" @input="validate('projectName')" placeholder="Project name"
                                     required />
                             </div>
-                            <p v-if="!validations.name.state">{{ validations.name.error }}</p>
+                            <p class="errorMessage" v-if="!validations.name.state">{{ validations.name.error }}</p>
 
                         </el-col>
                         <el-col class="cols" :span="30">
@@ -23,7 +23,7 @@
                                 <el-input v-model="project.teamName" @input="validate('teamName')" placeholder="Team name"
                                     required />
                             </div>
-                            <p v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
+                            <p class="errorMessage" v-if="!validations.teamName.state">{{ validations.teamName.error }}</p>
                         </el-col>
 
                     </div>
@@ -38,7 +38,7 @@
                                 <el-input v-model="project.description" @input="validate('description')"
                                     placeholder="Project description" required />
                             </div>
-                            <p v-if="!validations.description.state">{{ validations.description.error }}</p>
+                            <p class="errorMessage" v-if="!validations.description.state">{{ validations.description.error }}</p>
 
 
 
@@ -68,7 +68,7 @@
                                 format="DD/MM/YYYY" value-format="DD/MM/YYYY" type="date"
                                 placeholder="Stimated conclusion date"></el-date-picker>
                         </div>
-                        <p v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
+                        <p class="errorMessage" v-if="!validations.estimatedEndDate.state">{{ validations.estimatedEndDate.error }}</p>
 
                     </el-col>
                 </el-row>
@@ -136,6 +136,18 @@ export default {
     },
     methods: {
         async createProject() {
+            
+            //Si hay algún error no se deja modificar
+            if (!this.validations.teamName.state || !this.validations.name.state || !this.validations.description.state
+                || !this.validations.estimatedEndDate.state || !this.validations.teamMembers.state) {
+                await this.$swal({
+                    title: 'Please fill in the data according to the suggestions.',
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
 
             this.project.author = this.user.id;
 
