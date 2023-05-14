@@ -127,19 +127,16 @@ export default {
                     state: false,
                     error: "",
                 },
-                teamMembers: {
-                    state: false,
-                    error: "",
-                },
             }
         }
     },
     methods: {
         async createProject() {
-            
+            console.log(this.validations.teamName.state, this.validations.name.state, this.validations.description.state
+                , this.validations.estimatedEndDate.state);
             //Si hay algún error no se deja modificar
             if (!this.validations.teamName.state || !this.validations.name.state || !this.validations.description.state
-                || !this.validations.estimatedEndDate.state || !this.validations.teamMembers.state) {
+                || !this.validations.estimatedEndDate.state) {
                 await this.$swal({
                     title: 'Please fill in the data according to the suggestions.',
                     icon: "error",
