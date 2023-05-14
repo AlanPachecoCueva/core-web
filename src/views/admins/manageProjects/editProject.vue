@@ -157,6 +157,8 @@ import { validateProjectName, validateTeamName, validateDescription, validateEnd
 
 import { getUsersToCreateProject } from "../../../controllers/usersController.js";
 
+import { updateProject } from "../../../controllers/projectsController.js";
+
 import { getUsers } from '../../../controllers/usersController.js';
 export default {
     data() {
@@ -253,7 +255,7 @@ export default {
                 });
                 return;
             }
-            
+
             const result = await this.$swal({
                 title: '¿Do you want to edit the project?',
                 icon: 'question',
