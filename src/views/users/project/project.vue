@@ -90,17 +90,9 @@ export default {
     font-size: 2rem;
 }
 
-.row {
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgb(190, 190, 190);
-    height: fit-content !important;
-    
-}
-
 .rowTask {
     height:fit-content;
     margin: 50px 10px 50px 10px !important;
-    background-color: red;
 }
 
 .statisticsLeft {

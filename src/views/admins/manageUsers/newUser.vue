@@ -310,11 +310,6 @@ export default {
     background-color: rgba(85, 85, 85, 0.865);
 }
 
-.row {
-    width: 70%;
-    justify-content: center;
-}
-
 .passwordField {
     display: flex;
     flex-direction: row;

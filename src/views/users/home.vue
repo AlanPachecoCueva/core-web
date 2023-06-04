@@ -3,78 +3,81 @@
     <div v-if="loading">Loading...</div>
 
     <div v-if="!loading">
-        
-        <el-row class="rowTop">
-            <div className="elCardGeneral">
+
+        <div id="pagewrap">
+            <div class="gallery">
                 <!-- <div class="cardContainer"> -->
-                <div class="leftCard">
-                    <span>Nuevo Proyecto</span>
-                    <div>
-                        <el-button text @click="goToAddNewProject">Agregar</el-button>
+                <article class="imageCard hoverBtn" @click="goToAddNewProject()">
+                    <img src="../../assets/images/NewProject.jpg" />
+                    <div class="galleryDivisionContainer">
+                        <div class="galleryDivisionLeft galleryProject">
+                            <p>Nuevo Proyecto</p>
+                        </div>
+                        <div class="galleryDivisionRight">
+                            <i @click="goToAddNewProject()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="rightCard">
-                    <i class="mdi mdi-plus-box mdi-48px iconBtn" @click="goToAddNewProject"> </i>
-                </div>
-                <!-- </div> -->
+                </article>
 
-            </div>
-
-            <div className="elCardGeneral">
-                <div class="leftCard">
-                    <span>Borrar Proyecto</span>
-                    <div>
-                        <el-button text @click="goToAddNewProject">Eliminar</el-button>
+                <article class="imageCard hoverBtn" @click="goToAddNewProject()">
+                    <img src="../../assets/images/DeleteProject.jpg" />
+                    <div class="galleryDivisionContainer">
+                        <div class="galleryDivisionLeft galleryProject">
+                            <p>Eliminar Proyecto</p>
+                        </div>
+                        <div class="galleryDivisionRight">
+                            <i @click="goToAddNewProject()" class="mdi mdi-account-box mdi-36px iconBtn"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="rightCard">
-                    <i class="mdi mdi-delete-forever mdi-48px iconBtn" @click="goToAddNewProject"> </i>
-                </div>
+                </article>
             </div>
-        </el-row>
+        </div>
+
         <div class="rowsContainer">
-            
+
             <h1>Creados por mi</h1>
 
-            <el-row class="row">
-                <div v-for="project in ownProjects" :key="project.id" class="elCardGeneral">
+            <div class="row">
+                <!-- <div v-for="project in ownProjects" :key="project.id" class="elCardGeneral">
                     <div class="leftCard">
-                        <!-- <div style="padding:10px"> -->
                         <span>{{ project.name }}</span>
+                        <span>{{ project.teamName }}</span>
                         <div>
                             <span>{{ project.teamName }}</span>
                             <el-button text @click="goToViewProject(project.id)">Ver</el-button>
                         </div>
                     </div>
-
-                    <div class="rightCard"></div>
-                </div>
-
-            </el-row>
+                </div> -->
+                <article v-for="project in ownProjects" :key="project.id" class="imageCard projectCard hoverBtn">
+                    <img src="../../assets/images/MyProjects.jpg" />
+                    <div class="galleryDivisionContainer">
+                        <div class="galleryDivisionLeft galleryProject">
+                            <p>{{ project.name }}</p>
+                            <p>{{ project.teamName }}</p>
+                        </div>
+                        <div class="galleryDivisionRight">
+                            <i @click="goToViewProject(project.id)" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
 
             <h1>En los que participo</h1>
 
-            <el-row class="row">
-                <div v-for="project in projects" :key="project.id" class="elCardGeneral">
-                    <div class="leftCard">
-
-                        <div style="padding:10px">
-
-                            <span>{{ project.name }}</span>
-                            <div>
-                                <span>{{ project.teamName }}</span>
-                                <el-button text @click="goToViewProject(project.id)">Ver</el-button>
-                            </div>
-
+            <div class="row">
+                <article v-for="project in projects" :key="project.id" class="imageCard projectCard hoverBtn">
+                    <img src="../../assets/images/OtherProjects.jpg" />
+                    <div class="galleryDivisionContainer">
+                        <div class="galleryDivisionLeft galleryProject">
+                            <p>{{ project.name }}</p>
+                            <p>{{ project.teamName }}</p>
                         </div>
-
+                        <div class="galleryDivisionRight">
+                            <i @click="goToViewProject(project.id)" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                        </div>
                     </div>
-                    <div class="rightCard">
-
-                    </div>
-                </div>
-
-            </el-row>
+                </article>
+            </div>
         </div>
     </div>
 </template>
@@ -153,27 +156,6 @@ export default {
 
     justify-content: center;
 }
-
-/* Para grid */
-/* .el-row {
-    margin-bottom: 20px;
-}
-
-.el-row:last-child {
-    margin-bottom: 0;
-}
-
-.el-col {
-    border-radius: 4px;
-}
-
-.grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-} */
-
-/* ------------------- */
-
 
 .imageProject {
     width: 75%;
