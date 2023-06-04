@@ -3,6 +3,7 @@
     <div v-if="loading">Loading...</div>
 
     <div v-if="!loading">
+        
         <el-row class="rowTop">
             <div className="elCardGeneral">
                 <!-- <div class="cardContainer"> -->

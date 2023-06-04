@@ -91,14 +91,26 @@ export default {
 }
 
 .row {
-    padding-bottom: 20px;
+    margin-bottom: 20px;
     border-bottom: 1px solid rgb(190, 190, 190);
+    height: fit-content !important;
+    
 }
 
 .rowTask {
-    justify-content: space-around;
+    height:fit-content;
+    margin: 50px 10px 50px 10px !important;
+    background-color: red;
 }
 
+.statisticsLeft {
+    /* background-color: green; */
+    /* width: 47.5%; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .statisticCard {
     padding: 0px;
@@ -117,14 +129,7 @@ export default {
     justify-content: center;
 }
 
-.statisticsLeft {
-    /* background-color: green; */
-    /* width: 47.5%; */
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .statisticsRight {
     /* background-color: blue; */
