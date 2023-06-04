@@ -14,7 +14,7 @@
                             <p>Nuevo Proyecto</p>
                         </div>
                         <div class="galleryDivisionRight">
-                            <i @click="goToAddNewProject()" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                            <i @click="goToAddNewProject()" class="mdi mdi-briefcase-plus mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -26,7 +26,7 @@
                             <p>Eliminar Proyecto</p>
                         </div>
                         <div class="galleryDivisionRight">
-                            <i @click="goToAddNewProject()" class="mdi mdi-account-box mdi-36px iconBtn"></i>
+                            <i @click="goToAddNewProject()" class="mdi mdi-briefcase-remove mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -38,17 +38,7 @@
             <h1>Creados por mi</h1>
 
             <div class="row">
-                <!-- <div v-for="project in ownProjects" :key="project.id" class="elCardGeneral">
-                    <div class="leftCard">
-                        <span>{{ project.name }}</span>
-                        <span>{{ project.teamName }}</span>
-                        <div>
-                            <span>{{ project.teamName }}</span>
-                            <el-button text @click="goToViewProject(project.id)">Ver</el-button>
-                        </div>
-                    </div>
-                </div> -->
-                <article v-for="project in ownProjects" :key="project.id" class="imageCard projectCard hoverBtn">
+                <article v-for="project in ownProjects" :key="project.id" class="imageCard projectCard hoverBtn" @click="goToViewProject(project.id)">
                     <img src="../../assets/images/MyProjects.jpg" />
                     <div class="galleryDivisionContainer">
                         <div class="galleryDivisionLeft galleryProject">
@@ -56,7 +46,7 @@
                             <p>{{ project.teamName }}</p>
                         </div>
                         <div class="galleryDivisionRight">
-                            <i @click="goToViewProject(project.id)" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                            <i @click="goToViewProject(project.id)" class="mdi mdi-briefcase-eye mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -65,7 +55,7 @@
             <h1>En los que participo</h1>
 
             <div class="row">
-                <article v-for="project in projects" :key="project.id" class="imageCard projectCard hoverBtn">
+                <article v-for="project in projects" :key="project.id" class="imageCard projectCard hoverBtn" @click="goToViewProject(project.id)">
                     <img src="../../assets/images/OtherProjects.jpg" />
                     <div class="galleryDivisionContainer">
                         <div class="galleryDivisionLeft galleryProject">
@@ -73,7 +63,7 @@
                             <p>{{ project.teamName }}</p>
                         </div>
                         <div class="galleryDivisionRight">
-                            <i @click="goToViewProject(project.id)" class="mdi mdi-plus-box mdi-36px iconBtn"></i>
+                            <i @click="goToViewProject(project.id)" class="mdi mdi-briefcase-eye mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
