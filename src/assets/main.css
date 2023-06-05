@@ -310,3 +310,41 @@ body {
   flex-wrap: wrap;
   color: black;
 }
+
+
+
+
+
+
+
+
+
+/* Estilos de nuevo proyecto */
+.inputContainer {
+    background-color: rgb(208, 209, 209) !important;
+    margin: 2% 5%;
+    width: 90% !important;
+    height: 50px;
+}
+
+.inputContainerDate {
+    display: flex;
+    justify-content: center;
+    width: 100% !important;
+    height: 50px;
+}
+
+.containerDate {
+    background-color: rgb(208, 209, 209) !important;
+    
+    width: 50% !important;
+    height: 50px;
+}
+
+.inputDate {
+    width: 100% !important;
+    transform: translate(0%, 0);
+}
+
+
+

@@ -7,7 +7,9 @@ import auth from '../views/auth.vue';
 import home from '../views/users/home.vue';
 import addNewProject from "../views/users/project/addNewProject.vue";
 import project from '../views/users/project/project.vue';
+import deleteProject from '../views/users/project/deleteProject.vue';
 import addNewTask from '../views/users/project/addNewTask.vue';
+
 
 //Admins
 import homeAdmin from '../views/admins/homeAdmin.vue';
@@ -108,6 +110,11 @@ const router = createRouter({
       path: '/addNewProject',
       name: 'newProject',
       component: addNewProject,
+    },
+    {
+      path: '/deleteProject',
+      name: 'deleteProject',
+      component: deleteProject,
     },
     {
       path: '/project/:id',

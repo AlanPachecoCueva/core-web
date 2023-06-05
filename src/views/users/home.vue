@@ -19,14 +19,14 @@
                     </div>
                 </article>
 
-                <article class="imageCard hoverBtn" @click="goToAddNewProject()">
+                <article class="imageCard hoverBtn" @click="goToDeleteProject()">
                     <img src="../../assets/images/DeleteProject.jpg" />
                     <div class="galleryDivisionContainer">
                         <div class="galleryDivisionLeft galleryProject">
                             <p>Eliminar Proyecto</p>
                         </div>
                         <div class="galleryDivisionRight">
-                            <i @click="goToAddNewProject()" class="mdi mdi-briefcase-remove mdi-36px iconBtn"></i>
+                            <i @click="goToDeleteProject()" class="mdi mdi-briefcase-remove mdi-36px iconBtn"></i>
                         </div>
                     </div>
                 </article>
@@ -89,6 +89,9 @@ export default {
     methods: {
         goToAddNewProject() {
             this.$router.push('/addNewProject');
+        },
+        goToDeleteProject() {
+            this.$router.push('/deleteProject');
         },
         goToViewProject(id) {
             this.$router.push({ name: "project", params: { id } });

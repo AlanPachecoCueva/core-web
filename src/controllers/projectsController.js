@@ -93,10 +93,30 @@ const getProjectById = async (id) => {
 
 }
 
+const getProjectsByUser = async (id) => {
+
+    try {
+        const allProjects = await getProjects();
+
+        if (!allProjects) {
+            console.error("Error getting projects");
+            return false;
+        }
+
+        //Devuelve únicamente los proyectos que han sido creados por el usuario
+        const ownProjects = allProjects.filter(project => project.author == id);
+
+        return ownProjects;
+    } catch (error) {
+        return false;
+    }
+
+}
+
 const deleteProject = async (id) => {
     try {
         const res = await deleteProjectById(id);
-        return true;
+        return res;
     } catch (error) {
         console.error(error);
         return false;
@@ -119,4 +139,4 @@ const updateProjectById = async (id, data) => {
     
 }
 
-export { createAProject, getProjects, getProjectsList, getProjectById, deleteProject, updateProjectById };
+export { createAProject, getProjects, getProjectsList, getProjectById, deleteProject, updateProjectById, getProjectsByUser };
