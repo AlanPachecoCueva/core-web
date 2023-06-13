@@ -351,13 +351,6 @@ export default {
     overflow: unset !important;
 }
 
-
-.body{
-    width: 100%;
-    height: 200vh !important;
-}
-
-
 .errorMessage {
     color: #dcdfe6;
 }

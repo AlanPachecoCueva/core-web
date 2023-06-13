@@ -1,23 +1,23 @@
 <template>
     <div class="containerNewTask">
-        <v-card className="vCardNewTask">
+        <div className="vCardNewTask cardList">
             <div class="imagenLeftTaskContainer">
                 <img src="../../../assets/images/AddTask.jpg" class="imagenLeftTask" />
             </div>
 
             <div class="rightTaskContainer">
                 <v-card-title>
-                    Basic information
+                    Información Básica
                 </v-card-title>
                 <div class="otherInputs" :class="{ 'disabled': isDisabled }">
                     <el-col class="cols" :span="30">
                         <div class="inputContainer">
-                            <v-card-subtitle>Task Name</v-card-subtitle>
-                            <el-input v-model="task.name" placeholder="Task Name" />
+                            <v-card-subtitle class="subtitle">Nombre De La Tarea</v-card-subtitle>
+                            <el-input v-model="task.name" placeholder="Nombre De La Tarea" />
                         </div>
 
                         <div class="inputContainer">
-                            <v-card-subtitle>Members Of Task</v-card-subtitle>
+                            <v-card-subtitle class="subtitle">Miembros</v-card-subtitle>
                             <!-- <el-input v-model="project.teamMembers" placeholder="Select development members" required /> -->
                             <el-select class="inputSelect" v-model="task.members" multiple @change="setListOfTaskMembers()">
                                 <el-option v-for="user in users" :key="user.uid" :label="`${user.name} ${user.surname}`"
@@ -28,41 +28,41 @@
 
                     <el-col class="cols" :span="30">
                         <div class="inputContainer">
-                            <v-card-subtitle>Task Description</v-card-subtitle>
-                            <el-input v-model="task.description" placeholder="Task description" />
+                            <v-card-subtitle class="subtitle">Descripción</v-card-subtitle>
+                            <el-input v-model="task.description" placeholder="Descripción" />
                         </div>
 
                         <div class="inputContainer">
-                            <v-card-subtitle>Estimated End Date</v-card-subtitle>
+                            <v-card-subtitle class="subtitle">Fecha De Conclusión Estimada</v-card-subtitle>
                             <!-- <el-input v-model="user.birthdate" @input="validate('birthdate')" placeholder="Your birthdate" required /> -->
                             <el-date-picker v-model="task.estimatedEndDate" class="datePicker" format="DD/MM/YYYY"
                                 value-format="DD/MM/YYYY" type="date"
-                                placeholder="Stimated conclusion date"></el-date-picker>
+                                placeholder="Fecha De Conclusión Estimada"></el-date-picker>
                         </div>
                     </el-col>
                 </div>
                 <div class="containerButton disabledBtn" :class="{ 'disabled': isDisabled }">
-                    <el-button @click="setDisabled()" class="btnNewTask" type="primary">Next</el-button>
+                    <el-button @click="setDisabled()" class="btnNewTask" type="primary">Siguiente</el-button>
 
                 </div>
 
 
                 <div class="objectivesContainer" :class="{ 'disabled': !isDisabled }">
-                    <v-card-title>
+                    <v-card-title >
                         Objectives
                     </v-card-title>
                     <div class="objectives">
                         <el-col class="cols" :span="30">
                             <div class="inputContainer">
-                                <v-card-subtitle>Objective</v-card-subtitle>
-                                <el-input v-model="objective.description" placeholder="Objective description" />
+                                <v-card-subtitle class="subtitle">Objetivo</v-card-subtitle>
+                                <el-input v-model="objective.description" placeholder="Objetivo" />
                             </div>
 
                         </el-col>
 
                         <el-col class="cols" :span="30">
                             <div class="inputContainer">
-                                <v-card-subtitle>Assigned to</v-card-subtitle>
+                                <v-card-subtitle class="subtitle">Asignar a</v-card-subtitle>
                                 <!-- <el-input v-model="project.teamMembers" placeholder="Select development members" required /> -->
                                 <el-select class="inputSelect" v-model="objective.members" multiple>
                                     <el-option v-for="user in membersOfTask" :key="user.uid"
@@ -75,14 +75,14 @@
                     </div>
                     <div class="containerButton">
                         <el-button @click="addNewObjective()" class="btnNewTask" type="primary"> +
-                            Objective</el-button>
+                            Objetivo</el-button>
 
                     </div>
 
                 </div>
 
             </div>
-        </v-card>
+        </div>
     </div>
 
     <div class="containerNewTask objectiveCard" v-if="showTable">
@@ -93,10 +93,10 @@
                 <thead>
                     <tr>
                         <td class="tableColumn">
-                        <th class="text-left">Objective</th>
+                        <th class="text-left">Objetivo</th>
                         </td>
                         <td class="tableColumn">
-                        <th class="text-left">Assigned to</th>
+                        <th class="text-left">Asignado a</th>
                         </td>
 
                     </tr>
@@ -114,7 +114,7 @@
         </v-card>
         <div class="containerButton">
             <el-button @click="create()" class="btnNewTask" type="primary"> +
-                Create Task</el-button>
+                Crear Tarea</el-button>
 
         </div>
 
@@ -260,6 +260,10 @@ export default {
 </script>
 
 <style>
+.subtitle{
+    background-color: black;
+}
+
 .objectiveCard {
     height: fit-content !important;
 }
@@ -360,9 +364,8 @@ export default {
 }
 
 .vCardNewTask {
-    width: 80% !important;
-    height: 80% !important;
-    border: 1px solid #95c8ff !important;
+    width: 80%;
+    height: fit-content;
 
     display: flex !important;
     /* flex-direction: row !important; */
@@ -370,18 +373,17 @@ export default {
 }
 
 .rightTaskContainer {
+
     width: 70%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    background-color: #afcef0;
 }
 
 .imagenLeftTaskContainer {
+    display: flex;
     width: 30%;
-    height: 100%;
+    height: fit-content;
 
 }
 
@@ -390,8 +392,5 @@ export default {
     height: 100%;
 }
 
-.body {
-    margin: 0px;
-    padding: 0px;
-}
+
 </style>

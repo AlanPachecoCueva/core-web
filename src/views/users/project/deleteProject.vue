@@ -137,47 +137,47 @@ export default {
                 return;
             }
 
-            console.log("Task by disabled: ", this.task);
             this.isDisabled = true;
         },
-        async deleteProject(){
-            const res = await deleteProject(this.project.id);
-            console.log("ELIMINADO: ", res)
+        async deleteProject() {
+            const result = await this.$swal({
+                title: '¿Estás seguro de eliminar el proyecto?',
+                text: 'Se borrarán todas sus tareas asociadas.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: "No",
+            });
+            if (result.isConfirmed) {
+                const res = await deleteProject(this.project.id);
+                if (res) {
+                    await this.$swal({
+                        title: "¡El proyecto se eliminó correctamente!",
+                        icon: "success",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+
+                } else {
+                    await this.$swal({
+                        title: "¡El proyecto NO se eliminó correctamente!",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+                }
+                
+            }else{
+                await this.$swal({
+                        title: "¡El proyecto NO se eliminó!",
+                        icon: "success",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+            }
+            this.$router.push('/');
+
         }
-        // async create() {
-        //     console.log("this.task: ", this.task);
-
-        //     //Recupera usuario que está actualmente activo
-        //     const store = useUserStore();
-        //     const user = store.getUser;
-        //     this.task.author = user.id;
-        //     this.task.projectId = this.project.id;
-        //     const res = await createATask(this.task);
-
-
-        //     if (res != "Error") {
-        //         await this.$swal({
-        //             title: "¡Task created successfully!",
-        //             icon: "success",
-        //             showCancelButton: false,
-        //             confirmButtonText: "OK",
-        //         });
-
-        //         this.$router.push('/admin/task/');
-
-        //     } else {
-        //         await this.$swal({
-        //             title: "An error ocurred at create task.",
-        //             icon: "error",
-        //             showCancelButton: false,
-        //             confirmButtonText: "OK",
-        //         });
-        //         this.$router.push('/admin/task/new');
-
-        //     }
-        //     return;
-
-        // }
     },
     async mounted() {
         //Recupera usuario que está actualmente activo
@@ -235,6 +235,9 @@ export default {
     overflow-y: auto;
     height: fit-content;
     color: black !important;
+    background-color: rgb(183, 184, 186);
+    padding: 0px 10px;
+    border-radius: 10px;
 }
 
 /* Nuevo */
@@ -375,8 +378,5 @@ export default {
     align-items: center;
 }
 
-.body {
-    margin: 0px;
-    padding: 0px;
-}
+
 </style>

@@ -374,27 +374,7 @@ export default {
     /* margin-bottom: 10px; */
 }
 
-.colInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    width: 50%;
-
-    /* background-color: green; */
-}
-
-.input {
-    margin: 0px !important;
-    padding: 1px 11px !important;
-    width: 75% !important;
-    height: 38px;
-    min-width: 150px;
-
-    border-radius: 4px;
-    box-shadow: 0 0 0 1px #dcdfe6;
-    border: none;
-}
 
 .container {
     width: 100%;

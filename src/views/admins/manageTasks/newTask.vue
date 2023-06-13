@@ -442,8 +442,5 @@ export default {
     align-items: center;
 }
 
-.body {
-    margin: 0px;
-    padding: 0px;
-}
+
 </style>

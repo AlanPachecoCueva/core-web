@@ -25,8 +25,8 @@ function validateProjectName(name) {
         return "The project name lenght needs to be at least 5 characters."
     }
 
-    if (name.length > 25) {
-        return "The project name lenght can't have more than 25 characters."
+    if (name.length > 50) {
+        return "The project name lenght can't have more than 50 characters."
     }
 
     // El nombre cumple con todas las condiciones, retorna true
@@ -51,8 +51,8 @@ function validateTeamName(name) {
         return "The team name lenght needs to be at least 5 characters."
     }
 
-    if (name.length > 25) {
-        return "The team name lenght can't have more than 25 characters."
+    if (name.length > 50) {
+        return "The team name lenght can't have more than 50 characters."
     }
 
 
@@ -78,8 +78,8 @@ function validateName(name) {
         return "The name lenght needs to be at least 2 characters."
     }
 
-    if (name.length > 25) {
-        return "The name lenght can't have more than 25 characters."
+    if (name.length > 50) {
+        return "The name lenght can't have more than 50 characters."
     }
 
     // El nombre cumple con todas las condiciones, retorna true
@@ -98,8 +98,8 @@ function validateDescription(description) {
         return "The description lenght needs to be at least 10 characters."
     }
 
-    if (description.length > 100) {
-        return "The description lenght can't have more than 100 characters."
+    if (description.length > 500) {
+        return "The description lenght can't have more than 500 characters."
     }
 
     // El nombre cumple con todas las condiciones, retorna true

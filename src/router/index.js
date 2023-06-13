@@ -9,6 +9,7 @@ import addNewProject from "../views/users/project/addNewProject.vue";
 import project from '../views/users/project/project.vue';
 import deleteProject from '../views/users/project/deleteProject.vue';
 import addNewTask from '../views/users/project/addNewTask.vue';
+import task from '../views/users/task/task.vue';
 
 
 //Admins
@@ -125,6 +126,11 @@ const router = createRouter({
       path: '/addNewTask/:id',
       name: 'newTask',
       component: addNewTask,
+    },
+    {
+      path: '/task/:id',
+      name: 'task',
+      component: task,
     },
     // {
     //   path: '/:pathMatch(.*)*',

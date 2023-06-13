@@ -1,4 +1,4 @@
-import { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById, updateTask  } from "../models/tasksModel.js";
+import { createTask, getTasksOfProject, getTask, getAllTasks, deleteTaskById, updateTask, makeComment, getComments, deleteComment } from "../models/tasksModel.js";
 
 
 const createATask = async (taskData) => {
@@ -59,8 +59,6 @@ const deleteTask = async (id) => {
         console.error(error);
         return false;
     }
-
-
 }
 
 const updateTaskById = async (id, data) => {
@@ -77,4 +75,45 @@ const updateTaskById = async (id, data) => {
     
 }
 
-export { createATask, getTasksOfAProject, getTaskById, getTasks, deleteTask, updateTaskById };
+const addComment = async (taskId, comment, userId) => {
+    try {
+        const res = await makeComment(taskId, comment, userId);
+
+        if (!res) {
+            throw new Error("¡Unknow Error!");
+        }
+        return true;
+    }catch(error){
+        return false;
+    }
+    
+}
+
+const getAllComments = async (id) => {
+    try {
+        const tasks = await getComments(id);
+
+        if (!tasks) {
+            console.error("Error getting comments");
+            return false;
+        }
+
+        return tasks;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+
+}
+
+const deleteCommentOfTask = async (taskId, comment, userId) => {
+    try {
+        const res = await deleteComment(taskId, comment, userId);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
+export { createATask, getTasksOfAProject, getTaskById, getTasks, deleteTask, updateTaskById, addComment, getAllComments, deleteCommentOfTask};
