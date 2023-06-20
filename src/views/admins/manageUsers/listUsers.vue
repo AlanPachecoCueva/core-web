@@ -63,6 +63,9 @@
                         <td>
                             <i class="mdi mdi-account-remove mdi-36px iconBtn" @click="deteleUser(user.uid)"></i>
                         </td>
+                        <td>
+                            <i class="mdi mdi-chart-line mdi-36px iconBtn" @click="viewStatistics(user.uid)"></i>
+                        </td>
                     </tr>
                 </tbody>
             </v-table>
@@ -96,6 +99,9 @@ export default {
         }
     },
     methods: {
+        viewStatistics(id){
+            this.$router.push({ name: "viewStatistics", params: { id } });
+        },
         goToNewUser() {
             this.$router.push('/admin/new');
         },

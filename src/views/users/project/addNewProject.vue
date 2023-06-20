@@ -137,7 +137,8 @@ export default {
     },
     methods: {
         async createProject() {
-
+            this.project.author = this.user.id;
+            
             if(this.project.estimatedEndDate == "" || this.project.author == "" || this.project.teamName == "" || this.project.name == "" || this.project.description == ""){
                 await this.$swal({
                     title: "¡Error, todos los campos deben estar llenos!",
@@ -148,7 +149,7 @@ export default {
                 return;
             }
 
-            this.project.author = this.user.id;
+            
 
             let res = await createAProject(this.project);
             if (res != false) {

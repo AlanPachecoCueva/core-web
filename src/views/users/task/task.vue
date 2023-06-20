@@ -8,10 +8,10 @@
                 <h2>Descripción</h2>
                 <p>{{ task.description }}</p>
             </div>
-            <h2>Objetivos</h2>
-            <div class="objectiveRow" v-for="objective in task.objectives" :key="objective.description">
+            <h2>Otros objetivos</h2>
+            <div class="objectiveRow" v-for="objective in otherObjectives" :key="objective.description">
                 <p>🔵 {{ objective.description }}</p>
-                <p style="padding-left: 7%;">Aignado a: {{ getNames(objective.members) }}</p>
+                <p style="padding-left: 2%;">Aignado a: {{ getNames(objective.members) }} ({{ objective.state }})</p>
             </div>
         </div>
         <div class="rowsContainer">
@@ -27,7 +27,43 @@
                 </div>
             </div>
             <div class="buttonRow">
-                <i @click="goToAddNewTask(this.$route.params.id)" class="mdi mdi-text-box-edit mdi-36px iconBtn">
+                <i @click="updateTaskState()" class="mdi mdi-text-box-edit mdi-36px iconBtn">
+                    Actualizar</i>
+            </div>
+
+        </div>
+
+        <div class="rowsContainer">
+            <h1>Mis Objetivos</h1>
+            <div class="objectiveRow myObjectives" v-for="objective in myObjectives" :key="objective.description">
+                <div class="myObjectivesContent">
+                    <p>{{ objective.description }}</p>
+                    <p>Aignado a: {{ getNames(objective.members) }}</p>
+                </div>
+
+                <div class="inputContainerDate objectiveSelect">
+                    <h3>Estado</h3>
+                    <div class="containerDate">
+
+                        <el-select class="selectInput" v-model="objective.state">
+                            <el-option label="0%" value="0%" />
+                            <el-option label="10%" value="10%" />
+                            <el-option label="20%" value="20%" />
+                            <el-option label="30%" value="30%" />
+                            <el-option label="40%" value="40%" />
+                            <el-option label="50%" value="50%" />
+                            <el-option label="60%" value="60%" />
+                            <el-option label="70%" value="70%" />
+                            <el-option label="80%" value="80%" />
+                            <el-option label="90%" value="90%" />
+                            <el-option label="100%" value="100%" />
+                        </el-select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="buttonRow">
+                <i @click="updateObjectives()" class="mdi mdi-text-box-edit mdi-36px iconBtn">
                     Actualizar</i>
             </div>
 
@@ -60,7 +96,7 @@
 </template>
 
 <script>
-import { getTaskById, addComment, getAllComments, deleteCommentOfTask } from '../../../controllers/tasksController.js';
+import { updateTaskById, getTaskById, addComment, getAllComments, deleteCommentOfTask } from '../../../controllers/tasksController.js';
 import { getUsers } from '../../../controllers/usersController.js';
 import { useUserStore } from "../../../stores/userStore";
 
@@ -71,6 +107,8 @@ export default {
             allUsers: [],
             comment: "",
             comments: [],
+            otherObjectives: [],
+            myObjectives: [],
             user: {},
         }
         //On hold, On process, QA, Done.
@@ -82,6 +120,22 @@ export default {
         this.task = await getTaskById(this.$route.params.id);
 
         console.log("task: ", this.task)
+
+        this.otherObjectives = this.task.objectives.filter((objective) => {
+            //si es miembro de este objetivo
+            const isMember = objective.members.includes(this.user.id);
+            if (!isMember) {
+                return objective;
+            }
+        });
+
+        this.myObjectives = this.task.objectives.filter((objective) => {
+            //si es miembro de este objetivo
+            const isMember = objective.members.includes(this.user.id);
+            if (isMember) {
+                return objective;
+            }
+        });
 
         //Recuperamos los usuarios
         this.allUsers = await getUsers();
@@ -102,10 +156,89 @@ export default {
             const res = await addComment(this.$route.params.id, this.comment, this.user.id);
             this.comments.push = { comment: this.comment, userId: this.user.id };
             this.comment = "";
-            console.log("sendComment: ", res);
+
             this.$forceUpdate();
 
             this.$router.go(0);
+        },
+        async updateTaskState() {
+            if (this.task.state == "Done") {
+                
+                let showAlert = false;
+                this.task.objectives.forEach((objective) => {
+                    if (objective.state != "100%") {
+                        showAlert = true;
+                    }
+                });
+                if (showAlert) {
+                    await this.$swal({
+                        title: "¡Todos los objetivos deben haberse cumplido!",
+                        text: "Para marcar una tarea como Done, todos sus objetivos deben estar al 100%",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK",
+                    });
+                    return;
+                }
+            }
+            console.log("this.task: ", this.task);
+            const res = await updateTaskById(this.$route.params.id, this.task);
+
+            if (res) {
+                await this.$swal({
+                    title: "¡El estado de la tarea se modificó correctamente!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+                this.$router.go(0);
+            } else {
+                await this.$swal({
+                    title: "¡El estado de la tarea NO se modificó correctamente!",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+            }
+        },
+        async updateObjectives() {
+            //Unimos el arreglo de los objetivos del usuario actual con los delos otros usuarios
+            //Así tenemos la totalidad de objetivos (Actualizados) y podemos actualizar todos los comentarios de la tarea
+
+            const objectives = this.myObjectives.concat(this.otherObjectives);
+            if (this.task.state == "Done") {
+                this.myObjectives.forEach((objective) => {
+                    if (objective.state != "100%") {
+                        this.task.state = "On process";
+                        this.task.endDate = "";
+                    }
+                }
+                );
+            }
+
+
+            const data = {
+                name: this.task.name, description: this.task.description, estimatedEndDate: this.task.estimatedEndDate,
+                members: this.task.members, objectives, state: this.task.state
+            };
+            const res = await updateTaskById(this.$route.params.id, data);
+
+            if (res) {
+                await this.$swal({
+                    title: "¡El estado de los objetivos se modificó correctamente!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+                this.$router.go(0);
+            } else {
+                await this.$swal({
+                    title: "¡El estado de los objetivos NO se modificó correctamente!",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK",
+                });
+            }
         },
         async deleteTaskComment(comment) {
             const result = await this.$swal({
@@ -143,6 +276,33 @@ export default {
 </script>
 
 <style>
+.myObjectives {
+    background-color: rgb(77, 77, 77);
+    border: none !important;
+    padding: 1% 0px !important;
+    margin: 1% !important;
+
+    display: flex;
+
+
+}
+
+.myObjectivesContent {
+    width: 350%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.objectiveSelect {
+    margin: 1%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .selectInput {
     width: 100% !important;
     height: max-content !important;

@@ -18,6 +18,7 @@ import homeAdmin from '../views/admins/homeAdmin.vue';
 import listUsers from '../views/admins/manageUsers/listUsers.vue'
 import editUser from '../views/admins/manageUsers/editUser.vue'
 import newUser from '../views/admins/manageUsers/newUser.vue'
+import efficiency from '../views/admins/manageUsers/efficiency.vue';
 //Projects
 import listProjects from '../views/admins/manageProjects/listProjects.vue'
 import editProject from '../views/admins/manageProjects/editProject.vue'
@@ -64,6 +65,13 @@ const router = createRouter({
       component: editUser,
       props: true
     },
+    {
+      path: '/admin/viewStatistics/:id',
+      name: 'viewStatistics',
+      component: efficiency,
+      props: true
+    },
+    
     {
       path: '/admin/new',
       name: 'newUser',
@@ -132,6 +140,9 @@ const router = createRouter({
       name: 'task',
       component: task,
     },
+    
+
+    
     // {
     //   path: '/:pathMatch(.*)*',
     //   component

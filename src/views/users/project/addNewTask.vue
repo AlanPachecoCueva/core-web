@@ -48,7 +48,7 @@
 
 
                 <div class="objectivesContainer" :class="{ 'disabled': !isDisabled }">
-                    <v-card-title >
+                    <v-card-title>
                         Objectives
                     </v-card-title>
                     <div class="objectives">
@@ -148,7 +148,8 @@ export default {
             objective: {
                 description: "",
                 members: [],
-                state: "0%"
+                state: "0%",
+                endDate: ""
             },
             isDisabled: false,
             showTable: false,
@@ -260,7 +261,7 @@ export default {
 </script>
 
 <style>
-.subtitle{
+.subtitle {
     background-color: black;
 }
 
@@ -391,6 +392,4 @@ export default {
     width: 100%;
     height: 100%;
 }
-
-
 </style>

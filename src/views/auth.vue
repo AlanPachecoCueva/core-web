@@ -1,9 +1,11 @@
 
 <template>
-    <div class="container" :class="{ 'isRegister': !logIn }">
-        <register v-if="!logIn"></register>
-        <login v-if="logIn"></login>
-        <el-button class="btn" @click="switchButton()">{{ textoBtn }}</el-button>
+    <div class="visibleArea">
+        <div class="container" :class="{ 'isRegister': !logIn }">
+            <register v-if="!logIn"></register>
+            <login v-if="logIn"></login>
+            <el-button class="btn" @click="switchButton()">{{ textoBtn }}</el-button>
+        </div>
     </div>
 </template>
 
@@ -16,7 +18,7 @@
     margin: 1% 0% 10% 0%;
 }
 
-.isRegister{
+.isRegister {
     display: flex;
     flex-direction: column;
     min-height: 75% !important;
