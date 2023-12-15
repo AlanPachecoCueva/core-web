@@ -4,7 +4,7 @@ import { computed } from 'vue';
 
 import { useUserStore } from "../stores/userStore";
 
-import { logOut } from "../controllers/usersController";
+import { logOutGoogle } from "../controllers/usersController";
 export default {
     data() {
 
@@ -17,7 +17,7 @@ export default {
         },
         async signOut() {
             try {
-                await logOut();
+                await logOutGoogle();
             }
             catch (error) {
                 console.log(error);

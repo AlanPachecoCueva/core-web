@@ -25,6 +25,16 @@ export const useUserStore = defineStore({
       localStorage.setItem('user', JSON.stringify(userAux)); // Guardar los datos del usuario en el localStorage al actualizar el store
 
     },
+    setUserGoogle(user) {
+      console.log("User recibido en store: ", user);
+      const { uid, name, surname, email, city, birthdate, isAdmin, authorizationCode } = user;
+      const id = uid;
+      const userAux = { id, name, surname, email, city, birthdate, isAdmin, authorizationCode }
+      this.user = userAux;
+
+      localStorage.setItem('user', JSON.stringify(userAux)); // Guardar los datos del usuario en el localStorage al actualizar el store
+
+    },
     setIsLogued(isLogued) {
       this.isLogued = isLogued;
       localStorage.setItem('isLogued', JSON.stringify(isLogued)); // Guardar los datos del usuario en el localStorage al actualizar el store

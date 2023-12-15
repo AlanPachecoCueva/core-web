@@ -2,12 +2,40 @@
 <template>
     <div class="visibleArea">
         <div class="container" :class="{ 'isRegister': !logIn }">
-            <register v-if="!logIn"></register>
-            <login v-if="logIn"></login>
+            <!-- <register v-if="!logIn"></register> -->
+            <loginWithOAUTH v-if="logIn"></loginWithOAUTH>
             <el-button class="btn" @click="switchButton()">{{ textoBtn }}</el-button>
         </div>
     </div>
 </template>
+<script>
+import loginWithOAUTH from "../components/loginWithOAUTH.vue"
+import register from "../components/register.vue"
+//import login from "../components/login.vue"
+export default {
+    components: {
+        // Registrar el componente importado
+        register,
+        loginWithOAUTH
+    },
+    data() {
+        return {
+            logIn: true,
+            textoBtn: "Registrarse"
+        }
+    },
+    methods: {
+        switchButton() {
+            this.logIn = !this.logIn;
+            if (this.logIn) {
+                this.textoBtn = "Registrarse";
+            } else {
+                this.textoBtn = "Iniciar sesión";
+            }
+        }
+    }
+}
+</script>
 
 <style>
 .container {
@@ -30,32 +58,3 @@
     margin: 3% 0%;
 }
 </style>
-
-<script>
-import register from "../components/register.vue"
-import login from "../components/login.vue"
-export default {
-    components: {
-        // Registrar el componente importado
-        register,
-        login
-    },
-    data() {
-        return {
-            logIn: true,
-            textoBtn: "Registrarse"
-        }
-    },
-    methods: {
-        switchButton() {
-            this.logIn = !this.logIn;
-            if (this.logIn) {
-                this.textoBtn = "Registrarse";
-            } else {
-                this.textoBtn = "Iniciar sesión";
-            }
-        }
-    }
-}
-</script>
-

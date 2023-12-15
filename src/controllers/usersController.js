@@ -1,4 +1,4 @@
-import { getAllUsers, getUser, updateUser, createUser, deleteUserById, signIn, signOut } from "../models/usersModel.js";
+import { getAllUsers, getUser, updateUser, createUser, deleteUserById, signIn, signOutGoogle } from "../models/usersModel.js";
 
 import { useUserStore } from '../stores/userStore.js';
 
@@ -36,6 +36,26 @@ const logIn = async (userData) => {
     }
 }
 
+const logInGoogle = async (userData) => {
+    try {
+        let res = userData
+        if (res) {
+            //Guardar el usuario en el store
+            const userStore = useUserStore();
+            userStore.setUserGoogle(res);
+            userStore.setIsLogued(true);
+            return res;
+        } else {
+            console.error("Unable to log in.");
+            return false;
+        }
+
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
 const logOut = async () => {
     try {
         const res = await signOut();
@@ -46,7 +66,33 @@ const logOut = async () => {
 
             userStore.setIsLogued(false);
 
-            const emptyUser ={uid: "", name: "", surname: "", email: "", city: "", birthdate: "", isAdmin: ""};
+            const emptyUser ={uid: "", name: "", surname: "", email: "", city: "", birthdate: "", isAdmin: "", authorizationCode: ""};
+            userStore.setUser(emptyUser);
+        } else {
+            console.error("Unable to log out.");
+            return false;
+        }
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
+const logOutGoogle = async () => {
+    try {
+        //El cierre fue exitoso
+        const userStore = useUserStore();
+
+        const user = userStore.getUser();
+
+        const res = await signOutGoogle(user.authorizationCode);
+
+        if (res) {
+            
+
+            userStore.setIsLogued(false);
+            
+            const emptyUser ={uid: "", name: "", surname: "", email: "", city: "", birthdate: "", isAdmin: "", authorizationCode: ""};
             userStore.setUser(emptyUser);
         } else {
             console.error("Unable to log out.");
@@ -120,4 +166,4 @@ const update = async (id, data) => {
 }
 
 
-export { getUsers, getUserById, update, create, deleteUser, logIn, logOut, getUsersToCreateProject };
+export { getUsers, getUserById, update, create, deleteUser, logIn, logOut, getUsersToCreateProject, logInGoogle, logOutGoogle };

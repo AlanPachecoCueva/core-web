@@ -100,6 +100,10 @@ import { updateTaskById, getTaskById, addComment, getAllComments, deleteCommentO
 import { getUsers } from '../../../controllers/usersController.js';
 import { useUserStore } from "../../../stores/userStore";
 
+//Patrón de diseño
+import Subject from '../../../observer/Subject';
+import { emailSender } from '../../../observer/Observer';
+
 export default {
     data() {
         return {
@@ -110,10 +114,13 @@ export default {
             otherObjectives: [],
             myObjectives: [],
             user: {},
+            //Se crea el objeto que será observado en el patrón de diseño observer
+            subjectTask: new Subject()
         }
         //On hold, On process, QA, Done.
     },
     async mounted() {
+        this.subjectTask.registrarObservador(emailSender);
         const store = useUserStore();
         const user = store.getUser;
         this.user = user;
@@ -181,7 +188,6 @@ export default {
                     return;
                 }
             }
-            console.log("this.task: ", this.task);
             const res = await updateTaskById(this.$route.params.id, this.task);
 
             if (res) {
@@ -191,7 +197,16 @@ export default {
                     showCancelButton: false,
                     confirmButtonText: "OK",
                 });
-                this.$router.go(0);
+                
+                console.log("Patron observer    |     this.task: ", this.task);
+                this.subjectTask.notificarCambio(this.task);
+
+
+
+                
+                //this.$router.go(0);
+
+
             } else {
                 await this.$swal({
                     title: "¡El estado de la tarea NO se modificó correctamente!",

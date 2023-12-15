@@ -40,7 +40,8 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: auth
+      component: auth,
+      props: true, 
     },
     //Home para usuarios normales
     {
