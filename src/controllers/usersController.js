@@ -83,7 +83,7 @@ const logOutGoogle = async () => {
         //El cierre fue exitoso
         const userStore = useUserStore();
 
-        const user = userStore.getUser();
+        const user = userStore.getUser;
 
         const res = await signOutGoogle(user.authorizationCode);
 

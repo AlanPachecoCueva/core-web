@@ -2,10 +2,10 @@ import {
   authFirebase,
   signInWithEmailAndPassword,
 } from "../config/firebase/firebaseConfig";
-
+import axios from "axios";
 //Ruta para la api
 const RUTA_SERVIDOR = `${import.meta.env.VITE_APP_RUTA_API}`;
-
+import { useUserStore } from "../stores/userStore.js";
 //CREATE
 async function createUser(userData) {
   try {
@@ -105,22 +105,47 @@ async function signOutGoogle(authorizationCode) {
   try {
     // Llamar a la función de signOut proporcionada por Firebase Authentication
     //await authFirebase.signOut();
-    await this.$axios.post(
-      "https://accounts.google.com/o/oauth2/revoke",
-      null,
-      {
-        params: {
-          token: authorizationCode, // Asegúrate de tener acceso al token de acceso actual
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
+    //window.location.href = 'https://accounts.google.com/Logout';
+    const userStore = useUserStore();
 
-    return true;
+    const user = userStore.getUser;
+
+    userStore.setIsLogued(false);
+
+    const emptyUser = {
+      uid: "",
+      name: "",
+      surname: "",
+      email: "",
+      city: "",
+      birthdate: "",
+      isAdmin: "",
+      authorizationCode: "",
+    };
+    userStore.setUser(emptyUser);
+
+    // var myPageUrl = encodeURIComponent("http://localhost:5173/auth");
+    // window.location.href =
+    //   "https://accounts.google.com/Logout?continue=" + myPageUrl;
+
+      var signOutUrl = 'https://accounts.google.com/Logout';
+      
+      //Usar para redireccionar manualmente
+      //var myPageUrl = 'http://localhost:5173/auth';
+      //recargar la página (hará que mi código detecte que no hay usuario y por ende lo rediriga al auth)
+      location.reload();
+    // Abrir la URL de cierre de sesión en una nueva pestaña
+    var signOutTab = window.open(signOutUrl, '_blank');
+
+    // Asegurarte de que la pestaña de cierre de sesión se abrió correctamente
+    if (signOutTab) {
+        // Si se abrió correctamente, cerrar la url que se abre (la de cerrar sesión de google)
+        window.close();
+    }
+    //console.log("response axios in model: ", response.data);
   } catch (error) {
     // Manejo de errores en caso de fallo al cerrar sesión
+    console.log("Error en model");
     throw error;
   }
 }
