@@ -32,23 +32,12 @@
       <el-button type="primary" :icon="Delete" @click="signIn()"
         >Ingresar</el-button
       >
-
-      <!-- Google Sign-in button -->
-      <div v-show="!profile" id="g-signin2"></div>
-      <div v-if="profile">
-        <pre>{{ profile }}</pre>
-        <button @click="signOut">Sign Out</button>
-      </div>
     </v-card>
+
   </div>
 </template>
 
 <script>
-import { logInGoogle } from "../controllers/usersController";
-// Importa Axios
-import axios from "axios";
-import VueJwtDecode from "vue-jwt-decode";
-
 export default {
   data() {
     return {
@@ -65,79 +54,32 @@ export default {
       this.showPassword = !this.showPassword;
     },
     async signIn() {
-      const params = new URLSearchParams();
-      params.append(
-        "client_id",
-        "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com"
-      );
-      params.append("redirect_uri", "http://localhost:5173/auth");
-      params.append("response_type", "code");
-      params.append("scope", "openid email profile");
-      window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-    },
-    async logGoogle(authorizationCode) {
-      try {
-        const user = await this.exchangeAuthorizationCode(authorizationCode)
+      //Iniciamos y guardamos sesión
+      const response = await logIn({
+        email: this.user.email,
+        password: this.user.password,
+      });
 
-        console.log("user: ", user);
-        const response = await logInGoogle({
-          uid: user.kid,
-          name: user.given_name,
-          surname: user.family_name,
-          email: user.email,
-          city: user.sub,
-          fullName: user.name,
-          birthdate: user.name,
-          isAdmin: false,
-          authorizationCode
-        });
-        console.log("response: ", response);
-        this.$router.push("/");
-
-        //console.log("Inicio de sesión exitoso", user);
-      } catch (error) {
+      if (!response) {
         await this.$swal({
           title: "¡Error when trying to log in!",
           icon: "error",
           showCancelButton: false,
           confirmButtonText: "OK",
         });
-        //console.error("Inicio de sesión fallido", error);
+      } else {
+        console.log("response.isAdmin: ", response.isAdmin);
+        //Si el responde.admin es true quiere decir que es administrador entonces se le redirecciona al dashboard
+        if (response.isAdmin === true) {
+          this.$router.push("/homeAdmin");
+        } else {
+          this.$router.push("/");
+        }
       }
     },
-    async exchangeAuthorizationCode(authorizationCode) {
-      // Realiza una solicitud para intercambiar el código de autorización por un token de acceso
-      const data = {
-        code: authorizationCode,
-        client_id:
-          "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com",
-        client_secret: "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", // Asegúrate de tener tu cliente secreto configurado
-        redirect_uri: "http://localhost:5173/auth",
-        grant_type: "authorization_code",
-      };
-
-      const response = await axios.post(
-        "https://oauth2.googleapis.com/token",
-        data
-      );
-
-      // Accede al token de identificación desde la respuesta
-      const idToken = response.data.id_token;
-
-      // Decodifica el token de identificación para obtener información del usuario
-      const decodedToken = VueJwtDecode.decode(idToken);
-      console.log("Datos del usuario:", decodedToken);
-      return decodedToken;
-    },
   },
-  async mounted() {
-    // Accede al código de autorización desde los parámetros de la URL
-    const authorizationCode = this.$route.redirectedFrom.query.code;
-
-    if (authorizationCode) {
-      // Si hay un código de autorización, realiza acciones con él
-      await this.logGoogle(authorizationCode);
-    }
+  async created() {
+    
   },
 };
 </script>
@@ -170,4 +112,5 @@ export default {
 
   background-color: rgb(219, 224, 224) !important;
 }
+
 </style>

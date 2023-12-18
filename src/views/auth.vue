@@ -2,21 +2,24 @@
 <template>
     <div class="visibleArea">
         <div class="container" :class="{ 'isRegister': !logIn }">
-            <!-- <register v-if="!logIn"></register> -->
+            <register v-if="!logIn"></register>
             <loginWithOAUTH v-if="logIn"></loginWithOAUTH>
+            <GoogleLogInButton></GoogleLogInButton>
             <el-button class="btn" @click="switchButton()">{{ textoBtn }}</el-button>
         </div>
     </div>
 </template>
 <script>
-import loginWithOAUTH from "../components/loginWithOAUTH.vue"
-import register from "../components/register.vue"
+import loginWithOAUTH from "../components/loginWithOAUTH.vue";
+import register from "../components/register.vue";
+import GoogleLogInButton from "../components/GoogleLogInButton.vue";
 //import login from "../components/login.vue"
 export default {
     components: {
         // Registrar el componente importado
         register,
-        loginWithOAUTH
+        loginWithOAUTH,
+        GoogleLogInButton
     },
     data() {
         return {
