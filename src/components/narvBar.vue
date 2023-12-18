@@ -16,9 +16,7 @@ export default {
       try {
         
         await logOutGoogle();
-        console.log("AJAJA");
         window.location.reload();
-        console.log("AJAJA x2");
       } catch (error) {
         console.log(error);
       }
@@ -35,7 +33,7 @@ export default {
   mounted() {
     // gapi.load("auth2", function () {
     //   gapi.auth2.init({
-    //     client_id: "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com", // Reemplaza esto con tu Client ID.
+    //     client_id: "", // Reemplaza esto con tu Client ID.
     //   });
     // });
 

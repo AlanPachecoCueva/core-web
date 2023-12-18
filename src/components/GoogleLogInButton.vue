@@ -36,7 +36,7 @@ export default {
       // const params = new URLSearchParams();
       // params.append(
       //   "client_id",
-      //   "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com"
+      //   ""
       // );
       // params.append("redirect_uri", "http://localhost:5173/auth");
       // params.append("response_type", "code");
@@ -49,8 +49,6 @@ export default {
         authorizationCode = authorizationCode.credential;
         const user = VueJwtDecode.decode(authorizationCode);
         console.log("Datos del usuario:", user);
-
-        //const user = await this.exchangeAuthorizationCode(authorizationCode);
 
         //console.log("user: ", user);
         this.user = {
@@ -154,37 +152,12 @@ export default {
         //console.error("Inicio de sesión fallido", error);
       }
     },
-    async exchangeAuthorizationCode(authorizationCode) {
-      // Realiza una solicitud para intercambiar el código de autorización por un token de acceso
-      const params = new URLSearchParams();
-      params.append("code", authorizationCode);
-      params.append(
-        "client_id",
-        "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com"
-      );
-      params.append("client_secret", "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"); // Asegúrate de tener tu cliente secreto configurado
-      params.append("redirect_uri", "http://localhost:5173/auth");
-      params.append("grant_type", "authorization_code");
-
-      const response = await axios.post(
-        `https://oauth2.googleapis.com/token?${params.toString()}`
-      );
-
-      // Accede al token de identificación desde la respuesta
-      const idToken = response.data.id_token;
-
-      // Decodifica el token de identificación para obtener información del usuario
-      const decodedToken = VueJwtDecode.decode(idToken);
-      console.log("Datos del usuario:", decodedToken);
-      return decodedToken;
-    },
   },
   async created() {
     var self = this;
     window.onload = function () {
       google.accounts.id.initialize({
-        client_id:
-          "729320449938-0lpd8fran2mbogudp6sfn794snhf634u.apps.googleusercontent.com",
+        client_id:import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID,
         callback: function (resposne) {
           self.logGoogle(resposne);
         },
