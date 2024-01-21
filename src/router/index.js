@@ -31,6 +31,8 @@ import listTasksOfAProject from '../views/admins/manageTasks/listTasksOfAProject
 //Auth para estado del usuario
 import { authFirebase } from '../config/firebase/firebaseConfig.js';
 import { useUserStore } from '../stores/userStore.js';
+//Contactos
+import contacts from '../views/users/project/contacts.vue';
 
 
 const router = createRouter({
@@ -48,6 +50,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: home
+    },
+    {
+      path: '/contacts',
+      name: 'contacts',
+      component: contacts
     },
     //Home para admins
     {
